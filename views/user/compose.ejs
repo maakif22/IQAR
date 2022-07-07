@@ -1,0 +1,52 @@
+<% layout('layouts/base-front') -%>
+
+<style>
+    .pagination>li:first-child>a,
+        .pagination>li>a,
+        .pagination>li>a:hover,
+        .pagination>li>a:focus,
+        .pagination>li:first-child>span,
+        .pagination>li>span,
+        .pagination>li>span:hover,
+        .pagination>li>span:focus {
+            padding: 5px 10px
+        }
+    </style>
+<div class="row">
+    <div class="col-md-9">
+        <ul class="pagination pagination-sm mt-0">
+            <li>
+                <a href="/message/inbox">INBOX</a>
+            </li>
+            <li>
+                <a href="/message/sent">SENT</a>
+            </li>
+            <li>
+                <a href="/message/compose">COMPOSE</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+
+        <!--<form action="">
+                            <label for="messages_search" class="sr-only">Search Messages</label>
+                            <div class="youplay-input">
+                                <input type="text" name="s" id="messages_search" placeholder="Search Messages...">
+                            </div>
+                        </form>-->
+
+    </div>
+</div>
+<div class="youplay-input">
+    <input type="text" id="friends_autocomplete" placeholder="Send To" name="message-to">
+    <input type="hidden" id="to_id" value="" />
+</div>
+
+<div class="youplay-input">
+    <input class="form-control" id="subject" placeholder="Subject:">
+</div>
+<div class="youplay-textarea">
+    <textarea placeholder="Message" id="message" name="message" rows="5"></textarea>
+    <div class="pull-right" id="charNum" style="color:#ddd"></div>
+</div>
+<button id="sendMessage" type="submit" class="btn btn-default">Send</button>

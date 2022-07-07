@@ -1,0 +1,209 @@
+<% layout('layouts/base') -%>
+<script src="/dist/js/jquery.canvasjs.min.js"></script>
+<script>
+  window.onload = function () {
+
+    //Better to construct options first and then pass it as a parameter
+    var pieoptions = {
+      animationEnabled: true,
+      title: {
+        text: "User Status",
+        fontFamily: 'Source Sans Pro, sans-serif',
+        padding: 20
+      },
+      data: [
+        {
+          // Change type to "doughnut", "line", "splineArea", etc.
+          type: "pie",
+          // startAngle: 45,
+          showInLegend: "true",
+          legendText: "{label}",
+          indexLabel: "{label} ({y})",
+          // yValueFormatString: "#,##0.#" % "",
+          dataPoints: [
+            { label: "New Members", y: <%=currentMonthUsers%> },
+            { label: "User Logged in Last 24 hours", y: <%=last24login%> },
+            { label: "Online Members", y: <%=onlineUsers%> },
+            { label: "Total Members", y: <%=totalUsers%> },
+          ]
+        }
+      ]
+    };
+
+    var barOptions = {
+      // animationEnabled: true,
+      // title: {
+      //   text: "User By counties"
+      // },
+      animationEnabled: true,
+
+      title: {
+        text: "User Stats by Country",
+        fontFamily: 'Source Sans Pro, sans-serif',
+        padding: 20
+      },
+      axisX: {
+        interval: 1
+      },
+      axisY2: {
+        interlacedColor: "rgba(1,77,101,.2)",
+        gridColor: "rgba(1,77,101,.1)",
+        title: "Number of Users"
+      },
+      data: [
+        {
+          // Change type to "doughnut", "line", "splineArea", etc.
+          // type: "column",
+          type: "bar",
+          name: "companies",
+          axisYType: "secondary",
+          color: "#014D65",
+          dataPoints: [
+          <% for(let i = 0; i<userByCountry.length; i++) {%>
+            <% if(userByCountry[i].label!= null && userByCountry[i].label != -1) {%>
+      { label: "<%= userByCountry[i].label %>", y: <%= userByCountry[i].y %> },
+           <%} }%>
+          ]
+  }
+      ]
+    }
+
+  var tokenBarOptions = {
+    animationEnabled: true,
+
+    title: {
+      text: "Token stats",
+      fontFamily: 'Source Sans Pro, sans-serif',
+      padding: 20
+    },
+    data: [
+      {
+        // Change type to "doughnut", "line", "splineArea", etc.
+        // type: "column",
+        type: "column",
+
+        dataPoints: [
+          { label: "Total Token", y: <%=totalToken%> },
+          { label: "Token last 24 hours", y: <%=total24Token%> },
+        ]
+      }
+    ]
+  }
+  
+  $("#pieContainer").CanvasJSChart(pieoptions);
+  $("#barContainer").CanvasJSChart(barOptions);
+  $("#tokenBar").CanvasJSChart(tokenBarOptions);
+  }
+</script>
+<section class="content-header">
+  <h1>Dashboard</h1>
+  <ol class="breadcrumb">
+    <li> <a href="#"> <i class="fa fa-dashboard"></i>Level </a></li>
+    <li class="active">Here </li>
+  </ol>
+</section>
+<section class="content">
+  <!-- Info boxes -->
+  <div class="row">
+    <div class="col-md-6 col-sm-12">
+      <div class="info-box">
+        <div id="pieContainer" style="height: 300px; width: 100%;"></div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="info-box">
+        <div id="tokenBar" style="height: 300px; width: 100%;"></div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="row">
+    <div class="col-md-6 col-sm-12" style="height: 300px">
+      <div class="info-box" style="height :100%">
+        <div class="box-header" style="padding:0">
+          <h3 class="text-center">Oldest players</h3>
+        </div>
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table table-stripped no-margin">
+              <% for(let i = 0; i<oldestPlayer.length; i++) {%>
+              <% if(oldestPlayer[i].label!= null && oldestPlayer[i].label != -1) {%>
+              <tr>
+                <th>
+                  <%= oldestPlayer[i].label %>
+                </th>
+                <td>
+                  <%= oldestPlayer[i].y %>
+                </td>
+              </tr>
+              <%} }%>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 col-sm-12">
+      <div class="info-box">
+        <div id="topGames" style="height: 300px; width: 100%;"></div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <div id="barContainer" style="height: 300px; width: 100%;"></div>
+    </div>
+  </div>
+
+  <div class="row mt-20">
+    <div class="col-md-12">
+      <!-- TABLE: LATEST ORDERS -->
+      <div class="box box-info">
+        <div class="box-header with-border">
+          <h3 class="box-title">Latest Purchase</h3>
+
+          <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+          </div>
+        </div>
+        <!-- /.box-header -->
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table no-margin">
+              <thead>
+                <tr>
+                  <th>User Name</th>
+                  <th>Payment Id</th>
+                  <th>Amount</th>
+                  <th>Revenue</th>
+                  <th>Payment Status</th>
+                  <th>Payment Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                </tr>
+
+              </tbody>
+            </table>
+          </div>
+          <!-- /.table-responsive -->
+        </div>
+        <!-- /.box-body -->
+        <div class="box-footer clearfix">
+          <a href="/controlpanel/report/puchase-history" class="btn btn-sm btn-default btn-flat pull-right">View All
+            Purchases</a>
+        </div>
+        <!-- /.box-footer -->
+      </div>
+    </div>
+    <!-- /.col -->
+  </div>
+  <!-- /.row -->
+  <!-- Main row -->
+  
+  <!-- /.row -->
+</section>
+<!-- /.content -->

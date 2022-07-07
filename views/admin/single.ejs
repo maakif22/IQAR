@@ -1,0 +1,57 @@
+<% layout('layouts/base') -%>
+<section class="content-header">
+    <h1> 
+<small>Page Edit</small></h1>
+<!-- <ol class="breadcrumb">
+        <li>
+            <a href="#"> <i class="fa fa-dashboard"></i>Level </a>
+        </li>
+        <li class="active">Here </li>
+    </ol>-->
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-body">
+          <div style="clear: both;"></div>
+          <!-- form start -->
+            <form role="form" action="/controlpanel/pagesave" method="post">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Page Title</label>
+                  <input type="text" class="form-control" name="page_title" value="<%=page.page_title%>">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Page Slug</label>
+                  <input type="text" class="form-control" name="slug" value="<%=page.slug%>">
+                  <input type="hidden" name="id" value="<%=page.id%>">
+                  <small>Enter a string in small case without space. Ex: contactus or contact-us</small>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">Page Content</label>
+            <!-- /.box-header -->
+            <div class="box-body pad">
+          <textarea name="page_content" class="textarea" placeholder="Place some text here"
+                          style="width: 100%; height: 200px; font-size: 14px; line-height: 18px; border: 1px solid #dddddd; padding: 10px;" id="editor1">
+                          <%=page.page_content%>
+                        </textarea>
+             
+            </div>
+
+          </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" name="status" value="1" <% if(page.status == 1){%>checked="checked" <% } %> >Publish
+                  </label>
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+

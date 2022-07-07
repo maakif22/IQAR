@@ -1,0 +1,67 @@
+<% layout('layouts/base-front') -%>
+<h2 class="page-header">Result matching "
+  <%= query %>"</h2>
+<!-- <%= JSON.stringify(rows) %> -->
+<% for(var i=0; i<rows.length; i++) { %>
+<!-- Widget: user widget style 1 -->
+<div class="row mt-10">
+  <!-- Add the bg color to the header using any of the bg-* classes -->
+  <div class="col-md-6 col-xs-6">
+    <div class="col-md-6 col-xs-6">
+      <img style="width: 50px; height : 50px; border-radius: 50%" src=<% if(rows[i].profile_pic){%>
+      <%= "/users/"+rows[i].id+"/"+rows[i].profile_pic+"" %>
+      <%}else{%>
+      <%="/images/"+rows[i].gender+".jpg" %>
+      <%}%> alt="">
+    </div>
+    <div class="col-md-6 col-xs-6">
+      <h5 class="widget-user-username">
+        <p>
+          <h5><a class="ud" href="/profile/<%= rows[i].id %>">
+              <%= rows[i].firstname %></a></h5>
+        </p>
+      </h5>
+    </div>
+  </div>
+  <div class="col-md-6 col-xs-6 text-right">
+    <% if(rows[i].status==null){ %>
+    <p>
+      <!-- <h5 class="description-header">13,000</h5> -->
+      <button onclick="addFriend(this)" data-userId="<%= rows[i].id %>" class="btn btn-xs btn-primary">Add Friend</button>
+    </p>
+    <!-- /.col -->
+    <% } else if(rows[i].status==0 && rows[i].user_two_id==userId){ %>
+    <p>
+      <!-- <h5 class="description-header">13,000</h5> -->
+      <button onclick="acceptRequest(this)" data-userId="<%= rows[i].id %>" class="btn btn-xs btn-primary">Accept
+      </button>
+
+      <!-- <h5 class="description-header">13,000</h5> -->
+      <button onclick="declineRequest(this)" data-userId="<%= rows[i].id %>" class="btn btn-xs btn-primary">Decline</button>
+    </p>
+    <!-- /.col -->
+    <% } else if(rows[i].status==0 && rows[i].user_two_id != userId){ %>
+    <p>
+      <!-- <h5 class="description-header">13,000</h5> -->
+      <button onclick="cancelRequest(this)" data-userId="<%= rows[i].id %>" class="btn btn-xs btn-primary">Cancel
+        Request</button>
+    </p>
+    <!-- /.col -->
+    <% } else if(rows[i].status==1){ %>
+    <p>
+      <!-- <h5 class="description-header">13,000</h5> -->
+      <button onclick="unfriend(this)" data-userId="<%= rows[i].id %>" class="btn btn-xs btn-primary">Unfriend</button>
+      <p>
+        <!-- /.col -->
+        <% } %>
+  </div>
+  <!-- /.row -->
+</div>
+<!-- /.widget-user -->
+<% } %>
+<!-- /.col -->
+<script>
+  $(document).ready(_ => {
+    $(".search-label").show()
+  })
+</script>

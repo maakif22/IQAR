@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<!--
+    Name: Youplay - Game Template based on Bootstrap
+    Version: 3.3.0
+    Author: nK
+    Website: https://nkdev.info/
+    Purchase: https://themeforest.net/item/youplay-game-template-based-on-bootstrap/11306207?ref=_nK
+    Support: https://nk.ticksy.com/
+    License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
+    Copyright 2018.
+-->
+
+<html lang="en">
+
+<head>
+    <%- include ../partials/head %>
+    <style>
+        .required{
+    color :red;
+    font-weight : bolder
+}
+</style>
+</head>
+
+
+<body>
+
+    <!-- Preloader -->
+    <div class="page-preloader preloader-wrapp">
+
+        <img src="assets/images/   " alt="">
+
+        <div class="preloader"></div>
+    </div>
+    <!-- /Preloader -->
+
+    <!-- Navbar -->
+    <%- include ../partials/navigation %>
+    <!-- /Navbar -->
+    <div class="content-wrap">
+
+        <section class="youplay-banner banner-top youplay-banner-parallax full">
+
+            <div class="image" data-speed="0.4">
+                <img src="assets/images/dark/banner-bg.jpg" alt="" class="jarallax-img">
+            </div>
+
+            <div class="container youplay-content">
+                <div class="row align-items-center justify-content-center">
+
+                    <div class="col-md-9" style="margin: 0 auto !important; float: none;">
+                        <!-- Billing Information -->
+                        <h2 class="mt-0">Registration Details</h2>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>First Name: <span class="required">*</span></p>
+                                <div class="youplay-input">
+                                    <input type="text" name="firstname" value="<% if(options.first_name){%><%= options.first_name %><%}%>"
+                                        placeholder="First Name" id="firstname">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Last Name:</p>
+                                <div class="youplay-input">
+                                    <input type="text" name="lastname" value="<% if(options.first_name){%><%= options.last_name %><% } %>"
+                                        placeholder="Last Name" id="lastname">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Email: <span class="required">*</span></p>
+                                <div class="youplay-input">
+                                    <input type="text" name="email" value="<% if(options.first_name){%><%= options.email %><%}%>"
+                                        placeholder="Email" id="email">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Gender:</p>
+                                <label class="youplay-select">
+                                    <select name="gender" id="gender">
+                                        <option value="">Select Gender</option>
+                                        <option value="male" <% if(options.gender=="male" ){ %> selected
+                                            <% } %>>Male</option>
+                                        <option value="female" <% if(options.gender=="female" ){ %> selected
+                                            <% } %>>Female</option>
+                                    </select>
+                                </label>
+
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Password: <span class="required">*</span></p>
+                                <div class="youplay-input">
+                                    <input data-toggle="tooltip" title="Password must contain atleast one Uppercase character and a Digit "
+                                        type="password" name="password" placeholder="Password" id="password">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Password Again: <span class="required">*</span></p>
+                                <div class="youplay-input">
+                                    <input type="password" name="password_again" placeholder="Password again" id="password_again">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Address:</p>
+                                <div class="youplay-input">
+                                    <input type="text" name="res_address" placeholder="Street Address" id="res_address">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <p>Phone: <span class="required">*</span></p>
+                                <div class="youplay-input">
+                                    <input type="text" name="phone" placeholder="Phone" id="phone">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p>Country:</p>
+                                <label class="youplay-select">
+                                    <select id="country" name="country"></select>
+
+                            </div>
+                            <div class="col-md-6">
+                                <p>State:</p>
+                                <label class="youplay-select">
+                                    <select name="state" id="state"></select>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Order Button -->
+                        <div class="pull-left">
+                            <a href="/login" class="text-center">I already have a membership ?</a>
+                        </div>
+
+                        <div class="pull-right">
+                            <div id='loading' style='display:none' class="pull-left">
+                                <img src='/images/loader.gif' style="max-width: 32px;" />
+                            </div>
+                            <button type="submit" id="signup" class="btn btn-lg">Register</button>
+                        </div>
+                        <!-- /Order Button -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <%- include ../partials/footer %>
+        <script language="javascript">
+            populateCountries("country", "state"); // first parameter is id of country drop-down and second 
+        </script>

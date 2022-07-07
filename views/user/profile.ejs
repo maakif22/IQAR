@@ -1,0 +1,103 @@
+<% layout('layouts/base-front') -%>
+<div class="row">
+  <div class="col-md-3">
+
+    <!-- Profile Image -->
+    <div class="box box-primary mt-50">
+      <div class="box-body box-profile">
+        <img class="profile-user-img img-responsive img-circle" <% if(profile.profile_pic) { %> src="
+        <%= `/users/${profile.id}/${profile.profile_pic}` %>"
+        <% }else{%> src = "
+        <%= `/images/${profile.gender}.jpg` %>"
+        <% }%> alt="User profile picture">
+
+        <h3 class="profile-username text-center">
+          <%=  profile.firstname %>
+        </h3>
+
+        <p class="text-muted text-center">
+          <%= profile.email %>
+        </p>
+        <% if(profile.status==null){ %>
+        <button onclick="addFriend(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Add Friend</button>
+        <% }else if(profile.status==0){ %>
+        <% if(profile.user_one_id==session.id){ %>
+        <button onclick="cancelRequest(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Cancel
+          Request</button>
+        <% }else{ %>
+        <button onclick="acceptRequest(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Accept
+          Request</button>
+        <button onclick="declineRequest(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Decline
+          Request</button>
+        <% } %>
+        <% }else if(profile.status==1){ %>
+        <button onclick="unfriend(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Unfriend</button>
+        <% } %>
+        <button onclick="blockUser(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Block</button>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+
+
+  </div>
+  <!-- /.col -->
+  <div class="col-md-9">
+    <br /><br /><br /><br />
+    <table class="table table-bordered">
+      <tbody>
+        <tr>
+          <td style="width: 200px;">
+            <p>Email</p>
+          </td>
+          <td>
+            <p>
+              <%= profile.email %>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Address</p>
+          </td>
+          <td>
+            <p>
+              <% if(profile.res_address){%>
+              <%=  profile.res_address %>
+              <% }else{%>--
+              <%}%>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>State</p>
+          </td>
+          <td>
+            <p>
+              <% if(profile.state && profile.state!="Select State"){%>
+              <%=  profile.state %>
+              <% }else{%>--
+              <%}%>
+            </p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Country</p>
+          </td>
+          <td>
+            <p>
+              <% if(profile.country && profile.country!="Select Country"){%>
+              <%=profile.country %>
+              <% }else{%>--
+              <%}%>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <!-- /.col -->
+</div>
+<!-- /.row -->

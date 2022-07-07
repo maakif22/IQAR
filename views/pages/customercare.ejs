@@ -1,0 +1,25 @@
+<% layout('layouts/base-front-static') -%>
+ <!-- Main content -->
+    <section class="content" style="margin-top: 50px;">
+      <div class="row">
+      	<div class="col-md-2"></div>
+		<div class="col-md-8">
+		   <form id="contact" method="post">
+                <div class="youplay-input">
+                    <input type="text" placeholder="Email" name="email">
+                </div>
+                <div class="youplay-input">
+                    <input type="text" placeholder="Subject" name="subject">
+                </div>
+                <div class="youplay-textarea">
+                    <textarea placeholder="Message" name="message" rows="5"></textarea>
+                </div>
+           <button type="submit" class="btn btn-default" id="contact-form" name="contactsubmit">Send</button>
+            </form>
+		</div> 
+		<div class="col-md-2"></div>    
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->

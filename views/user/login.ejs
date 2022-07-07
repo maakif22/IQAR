@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!--
+    Name: Youplay - Game Template based on Bootstrap
+    Version: 3.3.0
+    Author: nK
+    Website: https://nkdev.info/
+    Purchase: https://themeforest.net/item/youplay-game-template-based-on-bootstrap/11306207?ref=_nK
+    Support: https://nk.ticksy.com/
+    License: You must have a valid license purchased only from ThemeForest (the above link) in order to legally use the theme for your project.
+    Copyright 2018.
+-->
+
+<html lang="en">
+
+<head>
+    <%- include ../partials/head %>
+</head>
+
+
+<body>
+
+    <!-- Preloader -->
+    <div class="page-preloader preloader-wrapp">
+
+        <img src="../../dist/assets/images/   " alt="">
+
+        <div class="preloader"></div>
+    </div>
+    <!-- /Preloader -->
+
+    <!-- Navbar -->
+    <%- include ../partials/navigation %>
+    <!-- /Navbar -->
+    <div class="content-wrap">
+
+        <section class="youplay-banner banner-top youplay-banner-parallax">
+            <div class="info">
+                <div>
+                    <div class="container">
+                        <div class="youplay-login">
+                            <div class="youplay-form text-center">
+                                <h1>Login</h1>
+
+                                <!--
+                                <div class="btn-group social-list dib ">
+                                    <a type="button" title="Login With Facebook" style="background: #3b5998;" href="/auth/facebook"
+                                        class="btn btn-fb"><i class="fa fa-facebook pr-1"></i>
+                                        Facebook</a>
+                                     <a class="btn btn-default" title="Login With Facebook" href="/auth/facebook"><i
+                                            class="fab fa-facebook"></i></a> 
+                                </div>
+                            -->
+                                <form action="" method="post">
+                                    <div class="youplay-input">
+                                        <input name="email" type="text" class="form-control" placeholder="Email">
+                                    </div>
+                                    <div class="youplay-input">
+                                        <input name="password" id="password" type="password" class="form-control"
+                                            placeholder="Password">
+                                    </div>
+
+                                    <button id="login" type="submit" class="btn btn-default db" name="loginsubmit">Login</button>
+                                </form>
+                                <div class="align-center" style="padding-top: 10px;">
+                                    <a href="/signup" class="pull-left">Don't have account ?</a>
+                                    <a href="/forgot-password" class="pull-right">Forgot Password ?</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Footer -->
+        <%- include ../partials/footer %>

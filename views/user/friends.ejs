@@ -1,0 +1,189 @@
+<!-- <script src="/socket.io/socket.io.js"></script> -->
+<script>
+  // var socket = io();
+  // socket.on("connect", function () {
+  //   socket.on("message", (user) => {
+  //     for (const usr in user) {
+  //       const element = user[usr];
+  //       $(".user" + element).addClass("online")
+  //     }
+  //   })
+  //   socket.on("loggedout", function (user) {
+  //     // document.write(user)
+  //     $(".user" + user).removeClass("online")
+  //   })
+  // })
+
+</script>
+
+<% layout('layouts/base-front') -%>
+<!-- Main content -->
+<section class="content">
+  <div class="row">
+
+    <div role="tabpanel">
+
+      <!-- Nav tabs -->
+      <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#frnds" aria-controls="home" role="tab" data-toggle="tab">FRIENDS</a></li>
+        <li role="presentation"><a href="#pndg" aria-controls="profile" role="tab" data-toggle="tab"><span class="count">
+              <% if(rows && rows.length!=0){%>
+              <%=rows.length%>
+              <% }%></span> PENDING REQUESTS</a></li>
+      </ul>
+
+      <!-- Tab panes -->
+      <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="frnds">
+          <!-- /.row -->
+          <h2 class="page-header">FRIENDS</h2>
+          <!-- /.col -->
+          <!-- <%= JSON.stringify(rows) %> -->
+          <% if(friends.length){%>
+          <% for(var i=0; i<friends.length; i++) { %>
+          <div class="row mt-10">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="col-md-6 col-xs-8">
+              <div class="col-md-6 col-xs-6">
+                <img >
+              </div>
+              <div class="col-md-6 col-xs-6">
+                <h5 class="widget-user-username">
+                  <p>
+                    <a class="ud" href=<%=`/profile/${friends[i].id}` %>>
+                      <%= friends[i].firstname %></a>
+                  </p>
+                </h5>
+              </div>
+            </div>
+            <div class="col-md-6 col-xs-4">
+              <% if(friends[i].status==null){ %>
+              <p>
+                <!-- <h5 class="description-header">13,000</h5> -->
+                <button onclick="addFriend(this)" data-userId="<%= friends[i].id %>" class="btn btn-xs btn-primary pull-right">Add
+                  Friend</button>
+              </p>
+              <% } else if(friends[i].status==0 && friends[i].user_two_id==userId){ %>
+              <p>
+                <!-- <h5 class="description-header">13,000</h5> -->
+                <button onclick="acceptRequest(this)" data-userId="<%= friends[i].id %>" class="btn btn-xs btn-primary pull-right">Accept
+                </button>
+              </p>
+              <!-- /.col -->
+              <p>
+                <!-- <h5 class="description-header">13,000</h5> -->
+                <button onclick="declineRequest(this)" data-userId="<%= friends[i].id %>" class="btn btn-xs btn-primary pull-right">Decline</button>
+              </p>
+              <% } else if(friends[i].status==0 && friends[i].user_two_id != userId){ %>
+              <p>
+                <!-- <h5 class="description-header">13,000</h5> -->
+                <button onclick="cancelRequest(this)" data-userId="<%= friends[i].id %>" class="btn  btn-xs btn-primary pull-right">Cancel
+                  Request</button>
+              </p>
+              <!-- /.col -->
+              <% } else if(friends[i].status==1 && friends[i].isadmin !=1){ %>
+              <p>
+                <!-- <h5 class="description-header">13,000</h5> -->
+                <button onclick="unfriend(this)" data-userId="<%= friends[i].id %>" class="btn btn-xs btn-primary pull-right">Unfriend</button>
+              </p>
+              <!-- /.col -->
+              <% } %>
+              <!-- /.row -->
+            </div>
+          </div>
+          <% }
+         }else{
+           %>
+          <div class="col-md-12 col-xs-12">
+            <p>
+              You have no friends...
+            </p>
+          </div>
+          <%
+         } %>
+        </div>
+        <div role="tabpanel" class="tab-pane" id="pndg">
+          <% if(profile.id==session.id){ %>
+          <h2 class="page-header">PENDING REQUESTS</h2>
+          <div class="row">
+            <!-- /.col -->
+            <!-- <%= JSON.stringify(rows) %> -->
+            <% if(rows.length){ 
+            for(var i=0; i<rows.length; i++) { %>
+            <div class="row mt-10">
+              <!-- Add the bg color to the header using any of the bg-* classes -->
+              <div class="col-md-6 col-xs-6">
+                <div class="col-md-6 col-xs-6">
+
+                </div>
+                <div class="col-md-6 col-xs-6">
+                  <h5 class="widget-user-username">
+                    <p>
+                      <a class="ud" href=<%=`/profile/${rows[i].user_one_id}` %>>
+                        <%= rows[i].firstname %>
+                      </a>
+                    </p>
+                  </h5>
+                </div>
+              </div>
+              <div class="col-md-6 col-xs-6 text-right">
+                <% if(rows[i].status==null){ %>
+                <p>
+                  <!-- <h5 class="description-header">13,000</h5> -->
+                  <button onclick="addFriend(this)" data-userId="<%= rows[i].user_one_id %>" class="btn  btn-xs btn-primary">Add
+                    Friend</button>
+                </p>
+                <!-- /.col -->
+                <% } else if(rows[i].status==0 && rows[i].user_two_id==userId){ %>
+                <p>
+                  <!-- <h5 class="description-header">13,000</h5> -->
+                  <button onclick="acceptRequest(this)" data-userId="<%= rows[i].user_one_id %>" class="btn btn-xs  btn-primary">Accept
+                  </button>
+
+                  <!-- <h5 class="description-header">13,000</h5> -->
+                  <button onclick="declineRequest(this)" data-userId="<%= rows[i].user_one_id %>" class="btn btn-xs  btn-primary">Decline</button>
+                </p>
+                <!-- /.col -->
+                <% } else if(rows[i].status==0 && rows[i].user_two_id != userId){ %>
+                <p>
+                  <!-- <h5 class="description-header">13,000</h5> -->
+                  <button onclick="cancelRequest(this)" data-userId="<%= rows[i].user_one_id %>" class="btn btn-xs btn-primary">Cancel
+                    Request</button>
+                </p>
+                <!-- /.col -->
+                <% } else if(rows[i].status==1){ %>
+                <p>
+                  <!-- <h5 class="description-header">13,000</h5> -->
+                  <button onclick="unfriend(this)" data-userId="<%= rows[i].user_one_id %>" class="btn btn-xs btn-primary">Unfriend</button>
+                </p>
+                <!-- /.col -->
+                <% } %>
+              </div>
+            </div>
+
+            <% }
+          }
+            else{%>
+            <div class="col-md-12 col-xs-12">
+              There are no pending request
+            </div>
+            <%} %>
+            <!-- /.col -->
+          </div>
+
+          <% } %>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <!-- /.row -->
+
+</section>
+<!-- /.content -->
+<script>
+  $(document).ready(_ => {
+    $(".search-label").show()
+  })
+</script>

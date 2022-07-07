@@ -1,0 +1,40 @@
+<% layout('layouts/base') -%>
+<section class="content-header">
+    <h1>
+        Broadcast</small></h1>
+
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+        </div>
+        <div class="box-body">
+
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="subject" name="subject" placeholder="Enter Subject" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="message" name="message" rows="4" class="form-control"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>Ref link</label>
+                            <input type="text" id="link" name="link" placeholder="Enter a url" class="form-control">
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <input type="hidden" name="_method" value="PUT">
+                        <a href="/controlpanel/message/inbox" class="btn btn-primary">Back</a>
+                        <button type="submit" onclick="sendNotification(this)" class="btn btn-primary pull-right"><i
+                                class="fa fa-pencil"> </i> Send</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

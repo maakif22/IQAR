@@ -1,0 +1,553 @@
+<script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+<script type="text/javascript" src="/dist/js/app.min.js"></script>
+<script type="text/javascript" src="/plugins/iCheck/icheck.min.js"></script>
+<script type="text/javascript" src="/plugins/datatables/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/dist/js/notify.min.js"></script>
+<script src="/plugins/ckeditor/ckeditor.js"></script>
+<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.flash.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+<script>
+  $(document).ready(function () {
+    $('#example').DataTable({
+      "scrollX": true,
+      "autoWidth": false,
+      "order": [],
+      'dom': 'Bfrtip',
+      'buttons': [
+        {
+          extend: 'excelHtml5',
+          title: 'Data export'
+        },
+        {
+          extend: 'csvHtml5',
+          title: 'Data export'
+        }
+      ]
+    });
+    $('#example_filter').addClass('pull-right');
+    $('.dataTables_scrollBody').addClass('table-responsive mailbox-messages');
+  });
+
+  var socket = io();
+</script>
+
+<script type="text/javascript">
+  var cururl = window.location.pathname;
+  var curpage = cururl.substr(cururl.lastIndexOf('/') + 1);
+
+  if (cururl.indexOf('pages/edit') != -1) {
+    $(function () { CKEDITOR.replace('editor1') })
+  }
+
+  var hash = window.location.hash.substr(1);
+  if ((curpage == "" || curpage == "/" || curpage == "admin") && hash == "") {
+    //$("nav .navbar-nav > li:first-child").addClass("active");
+  }
+  else {
+    $(".sidebar-menu li").each(function () {
+      $(this).removeClass("active");
+    });
+    if (hash != "")
+      $(".sidebar-menu li a[href*='" + hash + "']").parents("li").addClass("active");
+    else
+      $(".sidebar-menu li a[href*='" + curpage + "']").parents("li").addClass("active");
+  }
+</script>
+<script>
+  // $(function () {
+  //Enable iCheck plugin for checkboxes
+  //iCheck for checkbox and radio inputs
+  $('.mailbox-messages input[type="checkbox"]').iCheck({
+    checkboxClass: 'icheckbox_flat-blue',
+    radioClass: 'iradio_flat-blue'
+  });
+
+  //Enable check and uncheck all functionality
+  $(".checkbox-toggle").click(function () { //alert('checkbox-toggle');
+    var clicks = $(this).data('clicks');
+    if (clicks) {
+      //Uncheck all checkboxes
+      $(".mailbox-messages input[type='checkbox']").iCheck("uncheck");
+      $(".fa", this).removeClass("fa-check-square-o").addClass('fa-square-o');
+    } else {
+      //Check all checkboxes
+      $(".mailbox-messages input[type='checkbox']").iCheck("check");
+      $(".fa", this).removeClass("fa-square-o").addClass('fa-check-square-o');
+    }
+    $(this).data("clicks", !clicks);
+  });
+
+  //Handle starring for glyphicon and font awesome
+  $(".mailbox-star").click(function (e) {
+    e.preventDefault();
+    //detect type
+    var $this = $(this).find("a > i");
+    var glyph = $this.hasClass("glyphicon");
+    var fa = $this.hasClass("fa");
+
+    //Switch states
+    if (glyph) {
+      $this.toggleClass("glyphicon-star");
+      $this.toggleClass("glyphicon-star-empty");
+    }
+
+    if (fa) {
+      $this.toggleClass("fa-star");
+      $this.toggleClass("fa-star-o");
+    }
+  });
+
+  //});
+
+  $('#delinboxmsg,.delSingle').click(function (e) {
+  $('#delinboxmsg').prop('disabled', "disabled");
+  var checkBoxes = $('.myCheckBox');
+  $(".myCheckBox").click(function () {
+    let checkLength = $(":checkbox:checked").length;
+    if (checkLength > 0) {
+      $('#delinboxmsg').removeAttr('disabled');
+    } else {
+      $('#delinboxmsg').prop('disabled', "disabled");
+    }
+  })
+
+
+  /**
+  *Autocomplete friends search in inbox
+  */
+  /**/
+  $("#user_autocomplete").autocomplete({
+    source: function (request, response) {
+      $.ajax({
+        url: "/api/usr",
+        data: {
+          "friend_name": request.term
+        },
+        type: "GET",
+        success: function (resp) {
+          resp = JSON.parse(resp);
+          response($.map(resp, function (item) {
+            return {
+              name: item.id,
+              value: item.firstname
+            }
+          }));
+        }
+      })
+    },
+    select: function (event, ui) {
+      console.log('UI:' + ui);
+      $("#to_id").val(ui.item.name);
+      return true;
+    }
+  });
+
+</script>
+<script type="text/javascript">
+  /**
+*For sending message
+*/
+  function sendMessage(e) {
+
+    //console.log($("#to_id").val());
+    var data = {};
+    if ($('#sendToAll').prop('checked')) {
+      data.to_id = 0
+      console.log(data.to_id)
+    } else {
+      data.to_id = $("#to_id").val();
+    }
+    data.subject = $("#subject").val();
+    data.message = $("#message").val();
+
+    console.log(data);
+
+    $.ajax({
+      url: "/api/sendMessage",
+      method: "POST",
+      data: data,
+      dataType: "JSON",
+      success: data => {
+        $.notify("Message Sent", "success");
+        $("#to_id").val('');
+        $("#subject").val('');
+        $("#message").val('');
+      }
+    })
+  }
+
+    /**
+*For sending Notification on App
+*/
+  function sendAppMessage(e) {
+
+    //console.log($("#to_id").val());
+    var data = {};
+    if ($('#sendToAll').prop('checked')) {
+      data.to_id = 0
+      console.log(data.to_id)
+    } else {
+      data.to_id = $("#to_id").val();
+    }
+    data.subject = $("#subject").val();
+    data.message = $("#message").val();
+
+    console.log(data);
+
+    $.ajax({
+      url: "/api/sendMessage",
+      method: "POST",
+      data: data,
+      dataType: "JSON",
+      success: data => {
+        $.notify("Message Sent", "success");
+        $("#to_id").val('');
+        $("#subject").val('');
+        $("#message").val('');
+      }
+    })
+  }
+
+
+  $('.check:button').click(function () {
+    var checked = !$(this).data('checked');
+    $('input:checkbox').prop('checked', checked);
+    $('.delete:button').prop('disabled', !checked)
+    $('.suspend:button').prop('disabled', !checked)
+    $('.terminate:button').prop('disabled', !checked)
+    $(this).data('checked', checked);
+    if (checked == true) {
+      $(this).val('Uncheck All');
+    } else if (checked == false) {
+      $(this).val('Check All');
+    }
+  });
+
+  $('input:checkbox').change(function () {
+    $('.delete:button').prop('disabled', $('input:checkbox:checked').length == 0)
+    $('.suspend:button').prop('disabled', $('input:checkbox:checked').length == 0)
+    $('.terminate:button').prop('disabled', $('input:checkbox:checked').length == 0)
+  })
+
+  $('.delete:button').click(function () {
+    var ids = $('input:checkbox:checked').map(function () {
+      return this.value
+    }).get();
+    if (ids.length) {
+      $.ajax({
+        type: 'POST',
+        data: { "ids": ids },
+        dataType: "JSON",
+        url: '/controlpanel/users/delete',
+        success: function () {
+          location.reload()
+        },
+        error: () => location.reload()
+      });
+    } else {
+      $.notify("Nothing selected")
+    }
+  })
+
+  $('.terminate:button').click(function () {
+    var ids = $('input:checkbox:checked').map(function () {
+      return this.value
+    }).get();
+
+    $.ajax({
+      type: 'POST',
+      data: { "ids": ids },
+      dataType: "JSON",
+      url: '/controlpanel/users/terminate',
+      success: function () {
+        location.reload()
+      },
+      error: () => location.reload()
+    });
+  })
+
+  $('.suspend').click(function (e) {
+    e.preventDefault();
+    var ids = $('input:checkbox:checked').map(function () {
+      return this.value;
+    }).get();
+
+    var status = $('input:checkbox:checked').map(function () {
+      return $(this).attr("data-status")
+      // return this.value;
+    }).get();
+
+    let singleDelId = $(this).attr("data-ids")
+
+    if (singleDelId != undefined || singleDelId != null) {
+      if (!ids.includes(singleDelId))
+        ids.push(singleDelId)
+    }
+    if (ids.length) {
+      $.ajax({
+        type: 'POST',
+        data: { "ids": ids, "status": status },
+        dataType: "JSON",
+        url: '/controlpanel/users/approve',
+        success: function () {
+          location.reload()
+        },
+        error: () => location.reload()
+      });
+    } else {
+      $.notify("Nothing selected")
+    }
+  });
+
+  sendNotification = (e) => {
+    var data = {};
+    data.subject = $("#subject").val();
+    data.message = $("#message").val();
+    data.ref_link = $("#link").val()
+    if (data.subject != "" && data.message != "") {
+      console.log("about to send notification")
+      socket.emit('notification', data)
+    }
+  }
+
+  $(document).on("click", "#sendToAll", function () {
+    if ($('#sendToAll').prop('checked')) {
+      $("#user_autocomplete").val("")
+      $("#user_autocomplete").attr("disabled", "disabled")
+    } else {
+      $("#user_autocomplete").removeAttr("disabled")
+    }
+  })
+  $(function () {
+    $('#change-password-btn').click(function (e) {
+      e.preventDefault();
+      // console.log("kjjkhjk");
+      var data = {};
+      data.oldPass = $("#old-password").val();
+      data.password = $("#new-password").val();
+      data.confirmPassword = $("#confirm-password").val();
+      let from = $(this).attr('data-from')
+      console.log(from)
+      if (data.oldPass == '') {
+        $.notify("Old Password can't be empty", "error");
+        return false
+      } else if (data.password == '') {
+        $.notify("password can't be empty", "error");
+        return false
+      } else if (data.confirmPassword == '') {
+        $.notify("Confirm password can't be empty", "error");
+        return false
+      } else if (data.password != data.confirmPassword) {
+        $.notify("password doesn't match", "error");
+        return false
+      }
+      // console.log(data);
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/api/changepassword',
+        success: function (data) {
+          console.log('success');
+          console.log(JSON.stringify('data:' + data));
+          if (data.success == true) {
+            $.notify("Updated Successfully!!", "success");
+
+            setTimeout(function () {
+              if (from == 'admin') {
+                window.location.replace("/controlpanel/dashboard");
+                return
+              }
+              window.location.replace("/myprofile/" + data.uid);
+            }, 3000);
+
+
+          } else {
+            $.notify(data.mssg, "error");
+          }
+        },
+        error: function () {
+          console.log('error');
+        }
+      });
+    });
+  });
+  $(document).on('change', "#filterbycond", function () {
+    $("#next").attr("data-offset", 0)
+    $("#prev").attr('disabled', 'disabled')
+    $("#next").removeAttr('disabled')
+    let selected = $("#filterbycond :selected").val()
+    let offset = 0
+    console.log("#change", offset)
+    $.ajax({
+      url: '/api/getStatistics',
+      data: {
+        option: selected,
+        offset: offset
+      },
+      type: 'post',
+      success: function (data) {
+        let keys, th = '', td = '', html, tr = ''
+        if (data.result.length) {
+          let orgkeys = Object.keys(data.result[0])
+          keys = Object.keys(data.result[0]).map(key => key.replace("_", " ").toUpperCase())
+          th = '<tr>'
+          keys.forEach(key => {
+            th += `<th>${key}</th>`
+          });
+          th += "</tr>"
+          data.result.forEach(res => {
+            tr += "<tr>"
+            orgkeys.forEach(key => {
+              td += `<td>${res[key]}</td>`
+            })
+            tr = tr + td + "</tr>"
+            td = ''
+          })
+          $("#next").attr("data-offset", Number(offset) + 10)
+          $("#prev").attr('data-offset', Number(offset))
+          $('#appendhead').html(th)
+          $('#appendbody').html(tr)
+        }
+      }
+    })
+  })
+  $(document).on("click", "#next", function () {
+    let selected = $("#filterbycond :selected").val()
+    let offset = $("#next").attr("data-offset")
+    console.log("#next", offset)
+    $.ajax({
+      url: '/api/getStatistics',
+      data: {
+        option: selected,
+        offset: offset
+      },
+      type: 'post',
+      success: function (data) {
+        let keys, th = '', td = '', html, tr = ''
+        if (data.result.length) {
+          $("#next").removeAttr('disabled')
+          let orgkeys = Object.keys(data.result[0])
+          keys = Object.keys(data.result[0]).map(key => key.replace("_", " ").toUpperCase())
+          th = '<tr>'
+          keys.forEach(key => {
+            th += `<th>${key}</th>`
+          });
+          th += "</tr>"
+          data.result.forEach(res => {
+            tr += "<tr>"
+            orgkeys.forEach(key => {
+              td += `<td>${res[key]}</td>`
+            })
+            tr = tr + td + "</tr>"
+            td = ''
+          })
+          $("#next").attr("data-offset", Number(offset) + 10)
+          $("#prev").attr('data-offset') != 0 ? $("#prev").attr('data-offset', Number(offset)) : null
+
+          $("#prev").removeAttr('disabled')
+          $('#appendhead').html(th)
+          $('#appendbody').html(tr)
+        } else {
+          $.notify("No more records available", "error")
+          $("#next").attr('disabled', 'disabled')
+        }
+      }
+    })
+  })
+  $(document).on("click", "#prev", function () {
+    let selected = $("#filterbycond :selected").val()
+    let offset = $("#prev").attr("data-offset")
+    $("#next").removeAttr('disabled')
+    if (offset == 0) {
+      $("#prev").attr('disabled', 'disabled')
+    }
+    $.ajax({
+      url: '/api/getStatistics',
+      data: {
+        option: selected,
+        offset: offset
+      },
+      type: 'post',
+      success: function (data) {
+        let keys, th = '', td = '', html, tr = ''
+        if (data.result.length) {
+          let orgkeys = Object.keys(data.result[0])
+          keys = Object.keys(data.result[0]).map(key => key.replace("_", " ").toUpperCase())
+          th = '<tr>'
+          keys.forEach(key => {
+            th += `<th>${key}</th>`
+          });
+          th += "</tr>"
+          data.result.forEach(res => {
+            tr += "<tr>"
+            orgkeys.forEach(key => {
+              td += `<td>${res[key]}</td>`
+            })
+            tr = tr + td + "</tr>"
+            td = ''
+          })
+          $("#prev").attr("data-offset", Number(offset) != 0 ? Number(offset) - 10 : 0)
+          $("#next").attr("data-offset", Number(offset) != 0 ? Number(offset) : 10)
+          $('#appendhead').html(th)
+          $('#appendbody').html(tr)
+        }
+      }
+    })
+  })
+  function filterByCond() {
+
+  }
+  $(document).on("click", "#save", function () {
+    let permitted = $("#permitted").val()
+    $.ajax({
+      url: '/controlpanel/updatepermissions',
+      data: {
+        tags: permitted,
+        user_id: $(this).attr('data-user')
+      },
+      type: 'post',
+      success: function (result) {
+        if (result.success) {
+          $.notify("Permissions Successfully added", 'success')
+          setTimeout(_ => location.reload(), 500)
+        } else {
+          $.notify("Permission not set", 'error')
+        }
+      }
+    })
+  })
+
+  $(document).on("click", ".deletePermission", function () {
+    let permissions = $("#prevPermitted").attr('data-permissions')
+    let tag = $(this).attr("data-permission")
+    let user = $(this).attr('data-user')
+    permissions = permissions.trim().split(",")
+    let index = permissions.indexOf(tag);
+    if (index > -1) {
+      permissions.splice(index, 1);
+    }
+
+    $.ajax({
+      url: '/controlpanel/removePermission',
+      data: {
+        tag: permissions.toString(),
+        user: $(this).attr('data-user')
+      },
+      type: 'post',
+      success: function (result) {
+        if (result.success) {
+          $.notify("Permission Successfully removed", 'success')
+          setTimeout(_ => location.reload(), 500)
+        } else {
+          $.notify("Permission not set", 'error')
+        }
+      }
+    })
+  })
+</script>

@@ -1,0 +1,73 @@
+<% layout('layouts/base') -%>
+<section class="content-header">
+    <h1>
+        Add User<small>menu for adding user</small></h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"> <i class="fa fa-dashboard"></i>Level </a>
+        </li>
+        <li class="active">Here </li>
+    </ol>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">User</h3>
+            <div class="box-tools pull-right">
+                <button type="button" data-widget="collapse" data-toggle="tooltip" title="collapse" class="btn btn-box-tool"><i
+                        class="fa fa-minus"></i></button>
+            </div>
+        </div>
+        <div class="box-body">
+            <form role="form" method="post" action="/controlpanel/users/add" _lpchecked="1">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="box-body">
+                            <div class="form-group">
+                                <label>Username</label>
+                                <input type="text" value="" name="firstname" placeholder="Enter Username" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="text" value="" name="email" placeholder="Enter Address" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>Phone</label>
+                                <input type="text" value="" name="phone" placeholder="Enter Phone" class="form-control">
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label>Password</label>
+                                <input type="password" name="password" class="form-control" placeholder="Password" id="password">
+                                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <label>Retype Password</label>
+                                <input type="password" name="password_again" class="form-control" placeholder="Retype password"
+                                    id="password_again">
+                                <span class="glyphicon glyphicon-log-in form-control-feedback"></span>
+                            </div>
+                            <% if(session.isSuperAdmin){%>
+                            <div class="form-group has-feedback">
+                                <label>Is Admin</label>
+                                <select name="isadmin" class="form-control">
+                                    <option value="0">No</option>
+                                    <option value="1">Yes</option>
+                                </select>
+                            </div>
+                            <% } %>
+                            <div class="form-group">
+                                <label>Address</label>
+                                <textarea name="res_address" class="form-control"></textarea>
+                            </div>
+
+                        </div>
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-pencil"> </i> Add</button><a
+                                href="/controlpanel/users" class="btn btn-primary pull-right">Back</a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>

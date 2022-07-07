@@ -1,0 +1,160 @@
+<% layout('layouts/base') -%>
+<div class="col-md-12">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h3 class="box-title">Read Message</h3>
+
+      <div class="box-tools pull-right">
+        <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Previous"><i class="fa fa-chevron-left"></i></a>
+        <a href="#" class="btn btn-box-tool" data-toggle="tooltip" title="Next"><i class="fa fa-chevron-right"></i></a>
+      </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding" id="chatbox">
+      <div class="mailbox-read-info">
+        <h3>
+          <%= message[0].subject %>
+        </h3>
+        <h5>
+          <% if(message[0].to_id!=session.id){ %>
+          To
+          <% }else{ %>
+          From
+          <% } %>
+          :
+          <%= message[0].email %>
+          <span class="mailbox-read-time pull-right">15 Feb. 2015 11:03 PM</span></h5>
+      </div>
+      <!-- /.mailbox-controls -->
+      <% if(message[0].from_id == session.id){ %>
+      <div class="mailbox-read-message  text-left mailbox-read-message-left" style="padding-right :20%">
+        <%= message[0].message %>
+      </div>
+      <% }else{%>
+      <div class="mailbox-read-message text-right mailbox-read-message-right" style="padding-left :20%">
+        <%= message[0].message %>
+      </div>
+      <% } %>
+      <% for(var i=1; i < message.length; i++) {%>
+      <div class="panel panel-<%=i%>" data-length="<%= message.length %>" id="panel">
+        <% if(message[i].from_id == session.id){ %>
+        <div class="mailbox-read-message text-left mailbox-read-message-left" style="padding-right :20%">
+          <span class="text-card">
+            <%= message[i].message %></span>
+        </div>
+        <% }else{%>
+        <div class="mailbox-read-message text-right mailbox-read-message-right" style="padding-left :20%">
+          <span class="text-card">
+            <%= message[i].message %></span>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+      <!-- /.mailbox-read-message -->
+    </div>
+    <!-- /.box-body -->
+    <!-- /.box-footer -->
+    <div class="box-footer">
+      <div class="row mt-10">
+        <div class="col-md-4 text-left">
+          <!-- <button type="button" class="btn btn-default"><i data-ids="<%= message[0].id %>" class="fa fa-trash-o delSingle"></i></button> -->
+        </div>
+        <div class="col-md-4">
+          <% if(message.length > 1){%>
+          <div class="text-center accordion"><a class="btn btn-success">view next</a></div>
+          <div class="text-center close"><a class="btn btn-success">collapse</a></div>
+          <%}%>
+        </div>
+        <div class="col-md-4 text-right">
+          <button type="button" id="revealreply" class="btn btn-default"><i class="fa fa-reply"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-20">
+      <form onsubmit="replyMessage()">
+        <input type="hidden" name="subject" value="<%=message[0].subject%>">
+        <input type="hidden" name="email" value="<%=message[0].email%>">
+        <input type="hidden" name="thread" value="<%=message[0].thread_id%>">
+        <input type="hidden" name="to" value="<% if(session.id==message[0].to_id){%><%=message[0].from_id%><%}else{%><%=message[0].to_id%><%}%>">
+        <input type="hidden" name="from" value="<%=session.id%>">
+        <div class="col-md-10">
+          <input type="text" name="reply" id="replybtn" class="form-control" placeholder="type your message...">
+        </div>
+        <div class="col-md-2 text-right">
+          <button type="button" id="send" disabled class="btn btn-default"><i class="fa fa-send-o"></i></button>
+        </div>
+      </form>
+    </div>
+    <!-- /.box-footer -->
+  </div>
+  <!-- /. box -->
+</div>
+<!-- /.col -->
+<script src="../../dist/assets/vendor/jquery/dist/jquery.min.js"></script>
+<script>
+
+  $(document).on('click', "#revealreply", function () {
+    $('#replybtn,#send').toggleClass("visible");
+  })
+
+  $(document).on('click', "#send", function () {
+    console.log("sent")
+    var message = $("#replybtn").val()
+    var email = $("input[name=email]").val()
+    var subject = $("input[name=subject]").val()
+    var thread = $("input[name = thread]").val()
+    var to = $("input[name = to]").val()
+    var from = $("input[name =from]").val()
+
+    $.ajax({
+      type: 'POST',
+      data: {
+        message: message,
+        email: email,
+        subject: subject,
+        thread: thread,
+        to: to,
+        from: from
+      },
+      url: '/api/postReply',
+      success: function (data) {
+        var text = `<div class="box-body no-padding"><div class="mailbox-read-info"><h5>
+        <div class="mailbox-read-message text-left mailbox-read-message-left">
+          ${data.message}
+        </div>
+        <!-- /.mailbox-read-message -->
+      </div>`;
+
+        $("#chatbox").append(text)
+      }
+    })
+  })
+
+  var counter = 1
+  $(document).on("click", ".accordion", function () {
+    let length = $(`.panel-${counter}`).attr('data-length')
+    $(`.panel-${counter}`).addClass("visible")
+    console.log(counter, length)
+    counter++
+    if (counter == length) {
+      $('.close').addClass("visible")
+      $('.accordion').css({ "display": "none" })
+      counter = 1
+    }
+  })
+
+  $(document).on("click", ".close", function () {
+    $(".panel").removeClass("visible")
+    $(".close").removeClass("visible")
+    $(".accordion").css({ "display": "block" })
+  })
+
+  $(document).on('keyup', "#replybtn", function () {
+    let message = $(this).val()
+    if (message.length > 0) {
+      $("#send").attr('disabled', false)
+    } else {
+      $("#send").attr('disabled', true)
+    }
+  })
+</script>

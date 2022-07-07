@@ -1,0 +1,32 @@
+.main-profile-pic{width:100% !important;max-width:150px !important;}
+.modal-backdrop{display:none;}
+.funds-icon{background-image:url('../images/icons/5.png');background-position:4% 50%;;background-repeat:no-repeat;padding-left:40px;}
+.msg-icon{background-image:url('../images/icons/4.png');background-position:4% 50%;;background-repeat:no-repeat;padding-left:38px;}
+.frnds-icon{background-image:url('../images/icons/6.png');background-position:4% 50%;;background-repeat:no-repeat;padding-left:38px;}
+.prfl-icon{background-image:url('../images/icons/2.png');background-position:4% 50%;;background-repeat:no-repeat;padding-left:38px;}
+.acvty-icon{background-image:url('../images/icons/home.png');background-position:4% 50%;;background-repeat:no-repeat;padding-left:38px;}
+.stngs-icon{background-image:url('../images/icons/home.png');background-position:4% 50%;;background-repeat:no-repeat;padding-left:38px;}
+.logout-icon{background-image:url('../images/icons/3.png');background-position:4% 50%;;background-repeat:no-repeat;padding-left:38px;}
+.mt-10{margin-top:10px;}
+.mt-20{margin-top:10px;}
+#replybtn{border-radius:3px;padding:20px 20px;display:none;background:transparent;}
+.mailbox-read-message-right{border-right:solid 2px forestgreen;}
+.mailbox-read-message{padding:5px 10px}
+.mailbox-read-message-left{border-left:solid 2px #ff0033;}
+.visible{display:block !important;}
+#send{display:none;}
+.accordion{background-color:transparent;color:#000000;cursor:pointer;width:100%;border:none;outline:none;transition:0.4s;}
+.close{width:100%;display:none}
+.active, .accordion:hover{background-color:transparent;}
+.panel{background-color:transparent;display:none;overflow:hidden;}
+.text-card{background:rgba(0,0,0,0.2); padding : 10px}
+.online{border:solid 3px rgb(46, 231, 46);box-shadow:0px 0px 15px rgb(46, 241, 46)}
+.profile-user-img{margin:auto;height:159px;width:159px}
+.modal-dialog,.modal-header > *{color:#222}
+.modal-content{background:#fff;color:#222}
+.modal-footer > .btn-success{color:#fff !important;background-color:#5cb85c !important;border-color:#4cae4c !important;}
+.modal-footer > .btn-primary{color:#fff !important;background-color:#337ab7 !important;border-color:#2e6da4 !important;}
+.gamestat{background:#170b58;padding:10px;box-shadow:2px 2px 15px rgb(0,0,0,0.3);border-radius:2px;}
+.unread{background:rgba(0,0,0,0.3);padding:20px 0px; cursor : pointer}
+#notification-count{margin-left:50px;background:#ddd;border-radius:5px;color:#333333;padding:10px;}
+.ud{text-decoration:underline}.profile-username{margin: 10px 10%;}

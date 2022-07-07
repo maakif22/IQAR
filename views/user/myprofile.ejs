@@ -1,0 +1,141 @@
+<% layout('layouts/base-front') -%>
+<div class="row">
+    <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="box box-primary mt-50">
+            <div class="box-body box-profile" title="Click to change profile picture">
+                <span id="changeableProfileImage">
+                    <img id="change-profile-pic" class="profile_picture profile-user-img img-responsive img-circle" <%
+                        if(profile.profile_pic) { %> src=
+                    <%= `/users/${session.id}/${profile.profile_pic}` %>
+                    <% }else{%> src =
+                    <%= `/images/${profile.gender}.jpg` %>
+                    <% }%> alt="User profile picture">
+                </span>
+                <h3 class="profile-username text-center">
+                    <span>
+                        <%=  profile.firstname.toUpperCase() %></span>
+                </h3>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+<p class="help-block">*You can change the avatar picture by clicking on it</p>
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <h3 class="mt-0 mb-20 pull-right"><a href="/editmyprofile">Edit</a></h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td style="width: 200px;">
+                        <p>Email</p>
+                    </td>
+                    <td>
+                        <p>
+                            <%= profile.email %>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;">
+                        <p>Gender</p>
+                    </td>
+                    <td>
+                        <p>
+                            <%= profile.gender %>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Address</p>
+                    </td>
+                    <td>
+                        <p>
+                            <% if(profile.res_address){%>
+                            <%=  profile.res_address %>
+                            <% }else{%>--
+                            <%}%>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>State</p>
+                    </td>
+                    <td>
+                        <p>
+                            <% if(profile.state && profile.state!="Select State"){%>
+                            <%=  profile.state %>
+                            <% }else{%>--
+                            <%}%>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Country</p>
+                    </td>
+                    <td>
+                        <p>
+                            <% if(profile.country && profile.country!="Select Country"){%>
+                            <%=profile.country %>
+                            <% }else{%>--
+                            <%}%>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Age</p>
+                    </td>
+                    <td>
+                        <p>
+                            <% if(profile.user_age){%>
+                            <%=profile.user_age %>
+                            <% }else{%>--
+                            <%}%>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+<div id="profile_pic_modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Change Profile Picture</h3>
+            </div>
+            <div class="modal-body" style="height: 60vh;overflow-y: scroll">
+                <form id="cropimage" method="post">
+                    <strong>Upload Image:</strong> <br><br>
+                    <div class="row">
+                        <% for(let i=1; i <= 40 ; i++){%>
+                        <div class="col-md-3 col-sm-6 col-xs-6">
+                            <label for="a<%=i%>"><img src="/images/avatars/<%=i%>.png"></label>
+                            <input id="a<%=i%>" type="radio" name="avatar" value="<%=i%>">
+                        </div>
+                        <% }%>
+                    </div>
+
+                    <!-- <div id='preview-profile-pic'></div>
+                    <div id="thumbs" style="padding:5px; width:600p"></div> -->
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                <input type="button" id="change_profile" class="btn btn-primary" value="Save">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+</script>

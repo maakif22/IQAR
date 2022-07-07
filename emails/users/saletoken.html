@@ -1,0 +1,76 @@
+<html>
+
+<head>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+    <style>
+        * {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+
+        .header {
+            background: #160962;
+            padding: 10px;
+            text-align: center
+        }
+
+        .content {
+            padding: 5px 20px
+        }
+
+        .content h3 {
+            text-align: center
+        }
+
+        .content p {
+            line-height: 20px
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="header text-center">
+                <img src="https://www.oneup.ng/dist/assets/images/   " width="155" alt='Logo'
+                    data-default="placeholder" />
+            </div>
+        </div>
+        <div class="row">
+            <div>
+                <div class="content">
+                    <br>
+                    <p>
+                        Hi, {{username}}
+                    </p>
+                    <p>
+                        Your request to cash out {{amount}} tokens was successful..
+                    </p>
+                    <p>
+                        The sum of {{amount}} has been posted to the account below;
+                    </p>
+                    <ul>
+                        <li>{{bank_name}}</li>
+                        <li>{{bank_acc_name}}</li>
+                        <li>{{bank_acc_no}}</li>   
+                    </ul>
+                    <p>
+                        Please email <a href="mailto:users@oneup.ng">users@oneup.ng.</a> immediately if you have any
+                        concerns about this transaction within one hour of receiving this email, the funds will be transferred to the provided bank account.
+                    </p>
+                    <p>
+                        <strong>
+                            Thank you.!<br>
+                            Customer Experience Team
+                        </strong>
+
+                    </p>
+                </div>
+            </div>
+            <div>
+
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

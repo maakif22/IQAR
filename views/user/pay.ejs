@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
+    <!-- <script type="text/javascript" src="https://ravesandboxapi.flutterwave.com/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script> -->
+    <style>
+        .allpage {
+            display: flex;
+            height: 100vh;
+        }
+
+        .allpage form {
+            margin: auto
+        }
+    </style>
+    <script>
+        function payWithRave() {
+            var x = getpaidSetup({
+                PBFPubKey: "FLWPUBK-d3b695fd32696171fc39ee7feb0a1c8d-X",
+                // PBFPubKey: "FLWPUBK-7aa2a0b5d370cf8b59b078809f976547-X",
+                customer_email: "<%= data.email %>",
+                amount: "<%= data.amount %>",
+                customer_phone: "<%= data.phone %>",
+                currency: "<%= currency_format %>",
+                payment_options: "card,account",
+                txref: "RAVE-" + Date.now() + "&id=" +<%=data.id %> +"&product=<%=data.product%>&amount=<%=data.amount%>",
+                hosted_payment: 1,
+                redirect_url: "https://www.oneup.ng/success?currency=<%=currency_format%>",
+                meta: [{
+                    metaname: "flightID",
+                    metavalue: "AP1234"
+                }],
+                onclose: function () { },
+                callback: function (response) {
+                    var txref = response.tx.txRef; // collect txRef returned and pass to a 					server page to complete status check
+                    if (
+                        response.tx.chargeResponseCode == "00" ||
+                        response.tx.chargeResponseCode == "0"
+                    ) {
+                        location = "https://www.oneup.ng/success?" + JSON.stringify(response)
+                    } else {
+                        // redirect to a failure page.
+                        location = "https://www.oneup.ng/err"
+                    }
+
+                    x.close(); // use this to close the modal immediately after payment.
+                }
+            });
+        }
+    </script>
+</head>
+
+<body onload="payWithRave()"></body>
+
+</html>

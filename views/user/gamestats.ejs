@@ -1,0 +1,95 @@
+<% layout('layouts/base-front') -%>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">FAVOURITE GAMES</h1>
+            <!-- <hr style="border-color: #3c70a5"> -->
+        </div>
+    </div>
+    <div class="row mt-20">
+        <% if(fav.length){
+            for(let i=0; i < fav.length; i++){
+            %>
+        <div class="card col-md-2 col-xs-5 mt-10 btn bt-default">
+            <div class="card-header">
+                <%= fav[i].game_name%>
+            </div>
+        </div>
+        <%} }else{%>
+        <div class="col-md-12 col-xs-12">
+            <p>You do not have any Favourite games yet</p>
+        </div>
+        <% }%>
+    </div>
+    <div class="row mt-20">
+        <div class="col-md-12">
+            <h1 class="page-header">STATISTICS</h1>
+            <!-- <hr style="border-color: #3c70a5"> -->
+        </div>
+    </div>
+    <div class="row mt-20">
+        <% if(stats.length) {%>
+        <% for(let i=0; i < stats.length; i++){%>
+        <div class="col-md-4 col-sm-6 col-xs-12 mt-20">
+            <div class="card gamestat">
+                <img class="card-img-top" src="/dist/assets/images/<%= stats[i].game_id%>.jpg" alt="<%=stats[i].game_name%> ">
+                <div class="card-body">
+                    <h1 class="card-title text-center">
+                        <%= stats[i].game_name%>
+                    </h1>
+                    <div class="card-text">
+                        <div class="row">
+                            <div class="col-md-4  col-xs-4 mt-10">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-center">
+                                            <%= stats[i].total_battles%>
+                                        </h4>
+                                    </div>
+                                    <div class="card-footer">
+                                        <h6 class="text-center">Total Battles</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4  col-xs-4 mt-10">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-center">
+                                            <%= stats[i].battles_won%>
+                                        </h4>
+                                    </div>
+                                    <div class="card-footer">
+                                        <h6 class="text-center">Battles Won</h6>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4  col-xs-4 mt-10">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h4 class="text-center">
+                                            <%= stats[i].coins_won%>
+                                        </h4>
+                                    </div>
+                                    <div class="card-footer">
+                                        <h6 class="text-center">Tokens Earned</h6>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-center mt-20">
+                        <!-- <a href="#" class="btn btn-primary">View full stats</a> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <% }
+    }else{%>
+        <div class="col-md-12 col-xs-12">
+            <p> There is no Statistics available for you</p>
+        </div>
+        <%}%>
+    </div>
+</section>
+<!-- /.content -->

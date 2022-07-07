@@ -1,0 +1,83 @@
+<% layout('layouts/base') -%>
+<style type="text/css">
+    .rm-border {
+        border-left-color: #fff !important;
+        border-right-color: #fff !important;
+    }
+
+    td {
+        cursor: pointer;
+
+    }
+
+    .dt-buttons,
+    .sorting {
+        display: none
+    }
+
+    .tabs {
+        margin-right: 5px;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        <small>Manage Users Permissions</small></h1>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h3 class="box-title">User Permissions</h3>
+            <!--<div class="box-tools pull-right">
+                <button type="button" data-widget="collapse" data-toggle="tooltip" title="collapse" class="btn btn-box-tool"><i class="fa fa-minus"></i></button>
+            </div>-->
+        </div>
+        <div class="box-body">
+            <div style="clear: both;"></div>
+            <div class="mt-10"></div>
+            <div class="data-table mt-20">
+                <table class="table table-bordered" id="example">
+                    <thead>
+                        <tr>
+                            <th>User Name</th>
+                            <th>Permitted Tabs</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% i=1; users.forEach(function(user) { %>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <%= user.firstname %></strong>
+                            </td>
+                            <td>
+                                <% 
+                                if(user.permissions){
+                                let permitted = user.permissions
+                                permitted = permitted.trim().split(" ")
+                                permitted.forEach(perm=>{
+                                %>
+                                <span style="display: inline-block" class="tabs btn-xs btn-warning  mt-10">
+                                    <%=perm%></span>
+                                <%    
+                                })
+                            }else{%>
+                                <span style="display: inline-block" class="tabs btn-sm btn-default  mt-10">
+                                    No permissions assigned. Click on the edit button to assign permissions
+                                </span>
+                                <%}
+                                %>
+                            </td>
+                            <td>
+                                <div style="display:inline-block">
+                                    <a href="/controlpanel/updatepermissions/<%= user.id%>"><i class="fa fa-edit"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <% i++;}); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>

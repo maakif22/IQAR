@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <%- include ../partials/head.ejs %>
+</head>
+<body class="skin-blue layout-top-nav ">
+<div class="wrapper">
+
+  <%- include ../partials/header.ejs %>
+
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        User Profile
+      </h1>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-3">
+
+          <!-- Profile Image -->
+          <div class="box box-primary">
+            <div class="box-body box-profile">
+              <img class="profile-user-img img-responsive img-circle" src="/users/<%= profile.id %>/user.jpg" alt="User profile picture">
+
+              <h3 class="profile-username text-center"><%=  profile.username %></h3>
+
+              <p class="text-muted text-center"><%= profile.email %></p>
+
+              <ul class="list-group list-group-unbordered">
+                <!-- <li class="list-group-item">
+                  <b>Followers</b> <a class="pull-right">1,322</a>
+                </li>
+                <li class="list-group-item">
+                  <b>Following</b> <a class="pull-right">543</a>
+                </li> -->
+                <li class="list-group-item">
+                  <b>Friends</b> <a class="pull-right">13,287</a>
+                </li>
+              </ul>
+              <% if(profile.status==null){ %>
+                <button onclick="addFriend(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Add Friend</button>
+              <% }else if(profile.status==0){ %>
+                <% if(profile.user_one_id==session.id){ %>
+                  <button onclick="cancelRequest(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Cancel Request</button>
+                <% }else{ %>
+                  <button onclick="acceptRequest(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Accept Request</button>
+                  <button onclick="declineRequest(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Decline Request</button>
+                <% } %>
+              <% }else if(profile.status==1){ %>
+                <button onclick="unfriend(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Unfriend</button>
+              <% } %>
+              <button onclick="blockUser(this)" data-userId="<%= profile.id %>" class="btn btn-primary btn-block">Block</button>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+
+          
+        </div>
+        <!-- /.col -->
+        <div class="col-md-9">
+          <div class="nav-tabs-custom">
+            <ul class="nav nav-tabs">
+              <li class="active"><a href="#activity" data-toggle="tab">Activity</a></li>
+              <li class=""><a href="#timeline" data-toggle="tab">Friends</a></li>
+              <!-- <li><a href="#settings" data-toggle="tab">Settings</a></li> -->
+            </ul>
+            <div class="tab-content">
+              <div class="active tab-pane" id="activity">
+                <!-- Post -->
+                <div class="post">
+                  <div class="user-block">
+                    <img class="img-circle img-bordered-sm" src="../../dist/img/user1-128x128.jpg" alt="user image">
+                        <span class="username">
+                          <a href="#">Jonathan Burke Jr.</a>
+                          <a href="#" class="pull-right btn-box-tool"><i class="fa fa-times"></i></a>
+                        </span>
+                    <span class="description">Shared publicly - 7:30 PM today</span>
+                  </div>
+                  <!-- /.user-block -->
+                  <p>
+                    Lorem ipsum represents a long-held tradition for designers,
+                    typographers and the like. Some people hate it and argue for
+                    its demise, but others ignore the hate as they create awesome
+                    tools to help create filler text for everyone from bacon lovers
+                    to Charlie Sheen fans.
+                  </p>
+                  <ul class="list-inline">
+                    <li><a href="#" class="link-black text-sm"><i class="fa fa-share margin-r-5"></i> Share</a></li>
+                    <li><a href="#" class="link-black text-sm"><i class="fa fa-thumbs-o-up margin-r-5"></i> Like</a>
+                    </li>
+                    <li class="pull-right">
+                      <a href="#" class="link-black text-sm"><i class="fa fa-comments-o margin-r-5"></i> Comments
+                        (5)</a></li>
+                  </ul>
+
+                  <input class="form-control input-sm" type="text" placeholder="Type a comment">
+                </div>
+                <!-- /.post -->
+              </div>
+              <!-- /.tab-pane -->
+              <div class=" tab-pane" id="timeline">
+                <!-- /.row -->
+                <h2 class="page-header">Friends</h2>
+                <div class="row">
+                  <!-- /.col -->
+                  <% for(var i=0; i<friends.length; i++) { %>
+                  <div class="col-md-4">
+                    <!-- Widget: user widget style 1 -->
+                    <div class="box box-widget widget-user">
+                      <!-- Add the bg color to the header using any of the bg-* classes -->
+                      <div class="widget-user-header bg-aqua-active">
+                        <h3 class="widget-user-username"><%= friends[i].username %></h3>
+                        <h5 class="widget-user-desc"><%= friends[i].email %></h5>
+                      </div>
+                      <div class="widget-user-image">
+                        <img class="img-circle" src="/users/<%= friends[i].id %>/user.jpg" alt="User Avatar">
+                      </div>
+                      <div class="box-footer">
+                        <div class="row">
+                          <% if(friends[i].status==null){ %>
+                            <div class="col-sm-12 border-right">
+                              <div class="description-block">
+                                <!-- <h5 class="description-header">13,000</h5> -->
+                                <button onclick="addFriend(this)" data-userId="<%= friends[i].id %>" class="btn-primary">Add Friend</button>
+                              </div>
+                              <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                          <% } else if(friends[i].status==0 && friends[i].user_two_id==userId){ %>
+                            <div class="col-sm-6 border-right">
+                              <div class="description-block">
+                                <!-- <h5 class="description-header">13,000</h5> -->
+                                <button onclick="acceptRequest(this)" data-userId="<%= friends[i].id %>" class="btn-primary">Accept </button>
+                              </div>
+                              <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-6 border-right">
+                              <div class="description-block">
+                                <!-- <h5 class="description-header">13,000</h5> -->
+                                <button onclick="declineRequest(this)" data-userId="<%= friends[i].id %>" class="btn-primary">Decline</button>
+                              </div>
+                              <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                          <% } else if(friends[i].status==0 && friends[i].user_two_id != userId){ %>
+                            <div class="col-sm-12 border-right">
+                              <div class="description-block">
+                                <!-- <h5 class="description-header">13,000</h5> -->
+                                <button onclick="cancelRequest(this)" data-userId="<%= friends[i].id %>" class="btn-primary">Cancel Request</button>
+                              </div>
+                              <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                          <% } else if(friends[i].status==1){ %>
+                            <div class="col-sm-12 border-right">
+                              <div class="description-block">
+                                <!-- <h5 class="description-header">13,000</h5> -->
+                                <button onclick="unfriend(this)" data-userId="<%= friends[i].id %>" class="btn-primary">Unfriend</button>
+                              </div>
+                              <!-- /.description-block -->
+                            </div>
+                            <!-- /.col -->
+                          <% } %>
+                        </div>
+                        <!-- /.row -->
+                      </div>
+                    </div>
+                    <!-- /.widget-user -->
+                  </div>
+
+                  <% } %>
+                  <!-- /.col -->
+                </div>
+                <!-- /.row -->
+              </div>
+              <!-- /.tab-pane -->
+
+            </div>
+            <!-- /.tab-content -->
+          </div>
+          <!-- /.nav-tabs-custom -->
+        </div>
+        <!-- /.col -->
+      </div>
+      <!-- /.row -->
+
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <%- include ../partials/footer.ejs %>
+  
+
+</div>
+<!-- ./wrapper -->
+
+<%- include ../partials/scripts.ejs %>
+
+</body>
+</html>

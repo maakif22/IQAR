@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include ../partials/head %>
+    <!-- Revolution Slider -->
+    <link rel="stylesheet" href="/dist/assets/vendor/slider-revolution/css/settings.css" media="none" onload="if(this.media!='all')this.media='all'">
+    <link rel="stylesheet" href="/dist/assets/vendor/slider-revolution/css/layers.css" media="none" onload="if(this.media!='all')this.media='all'">
+    <link rel="stylesheet" href="/dist/assets/vendor/slider-revolution/css/navigation.css" media="none" onload="if(this.media!='all')this.media='all'">
+    <style>
+        .gamecard {
+                position: relative;
+            }
+            .image {
+              opacity: 1;
+              display: block;
+              width: 100%;
+              height: auto;
+              transition: .5s ease;
+              backface-visibility: hidden;
+            }
+            
+            .middle {
+              transition: .5s ease;
+              opacity: 0;
+              z-index: 100;
+              position: absolute;
+              /* top: 50%;
+              left: 50%; */
+              /* transform: translate(-50%, -50%); */
+              /* -ms-transform: translate(-50%, -50%); */
+              text-align: center;
+            }
+
+            .gamecard:hover .middle {
+              opacity: 1;
+            }
+            .gamecard:hover a {
+              opacity: 0.3;
+            }
+            .text {
+              background-color: rgba(70,130,180,1);
+              box-shadow : 1px 2px 15px rgba(0,0,0,0.8);
+              cursor: pointer;
+              color: white;
+              font-size: 12px;
+              padding: 10px 20px;
+            }
+            </style>
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div class="page-preloader preloader-wrapp">
+
+        <img src="" alt="logo">
+
+        <div class="preloader"></div>
+    </div>
+    <!-- /Preloader -->
+
+    <!-- Navbar -->
+    <%- include ../partials/navigation %>
+    <!-- /Navbar -->
+
+    <!-- Registration Form -->
+    <div id="nav-registration" class="modal fade">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Register</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="#" method="post">
+                        <div>
+                            <p>Username:</p>
+                            <div class="youplay-input">
+                                <input type="text" name="user_login" />
+                            </div>
+
+                            <p>E-mail:</p>
+                            <div class="youplay-input">
+                                <input type="text" name="user_email" />
+                            </div>
+
+                            <p>
+                                <em>A password will be e-mailed to you.</em>
+                            </p>
+
+                            <button class="btn ml-3" name="submit">Register</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /Registration Form -->
+
+    <div class="content-wrap">
+
+        <!-- Slider Revolution -->
+        <div class="rev_slider_wrapper rs-youplay ">
+            <div class="rev_slider" data-version="5.4.6.4" style="max-height: 600px;">
+                <ul>
+                    <!-- SLIDE NR. 1  -->
+
+                    <li data-index="rs-41" data-thumb="" data-saveperformance="on" data-transition="random-static"
+                        data-slotamount="7" data-masterspeed="700">
+                        <!-- MAIN IMAGE -->
+                        <img src="" alt="image" data-lazyload="" data-bgposition="center top"
+                            data-bgfit="100% 100%" data-bgrepeat="no-repeat" class="rev-slidebg">
+                    </li>
+
+                    <!-- SLIDE NR. 2  -->
+                    <li data-index="rs-2" data-thumb="" data-saveperformance="on" data-transition="random-static"
+                        data-slotamount="7" data-masterspeed="700">
+                        <!-- MAIN IMAGE -->
+                        <img src="" alt="image" data-lazyload="" data-bgposition="center top"
+                            data-bgfit="100% 100%" data-bgrepeat="no-repeat" class="rev-slidebg">
+
+                    </li>
+
+                    <!-- SLIDE NR. 3  -->
+                    <li data-index="rs-3" data-thumb="" data-saveperformance="on" data-transition="random-static"
+                        data-slotamount="7" data-masterspeed="700">
+                        <!-- MAIN IMAGE -->
+                        <img src="" alt="image" data-lazyload="" data-bgposition="center top"
+                            data-bgfit="100% 100%" data-bgrepeat="no-repeat" class="rev-slidebg">
+                    </li>
+
+                    <!-- SLIDE NR. 4  -->
+                    <li data-index="rs-1" data-thumb="" data-saveperformance="on" data-transition="random-static"
+                        data-slotamount="7" data-masterspeed="700">
+                        <!-- MAIN IMAGE -->
+                        <img src="" alt="image" data-lazyload="" data-bgposition="center top"
+                            data-bgfit="100% 100%" data-bgrepeat="no-repeat" class="rev-slidebg">
+
+                    </li> <!-- SLIDE NR. 5  -->
+                    <li data-index="rs-5" data-thumb="" data-saveperformance="on" data-transition="random-static"
+                        data-slotamount="7" data-masterspeed="700">
+                        <!-- MAIN IMAGE -->
+                        <img src="" alt="image" data-lazyload="" data-bgposition="center top"
+                            data-bgfit="100% 100%" data-bgrepeat="no-repeat" class="rev-slidebg">
+                    </li>
+
+                    <!-- SLIDE NR. 6  -->
+                    <li data-index="rs-6" data-thumb="" data-saveperformance="on" data-transition="random-static"
+                        data-slotamount="7" data-masterspeed="700">
+                        <!-- MAIN IMAGE -->
+                        <img src="" alt="image" data-lazyload="" data-bgposition="center top"
+                            data-bgfit="100% 100%" data-bgrepeat="no-repeat" class="rev-slidebg">
+                    </li>
+
+                </ul>
+                <div class="tp-bannertimer"></div>
+            </div>
+        </div>
+        <!-- /Slider Revolution-->
+
+        <section class="youplay-features container mt-custom hidden game">
+            <div class="col-sm-4 gamecard" style="padding-top: 15px; padding-bottom: 15px">
+                <div class="middle">
+                    <div class="text" onclick="makefav(this)" data-id="1" <% if(fav.includes(1)){%>style="background-color:tomato"
+                        <%}%> >
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <% if(!fav.includes(1)){%> Add to favourite
+                        <%}else{%> Remove favourite
+                        <%}%>
+                    </div>
+                </div>
+                <a title="click to download game" href="#" class="image"><img src="" alt="Avatar"
+                        width="100%"></a>
+            </div>
+            <div class="col-sm-4 gamecard" style="padding-top: 15px; padding-bottom: 15px">
+                <div class="middle">
+                    <div class="text" onclick="makefav(this)" data-id="4" <% if(fav.includes(4)){%>style="background-color:tomato"
+                        <%}%>>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <% if(!fav.includes(4)){%> Add to favourite
+                        <%}else{%> Remove favourite
+                        <%}%>
+                    </div>
+                </div>
+                <a href="#" title="click to download game" class="image"><img src="" width="100%"></a>
+            </div>
+            <div class="col-sm-4 gamecard" style="padding-top: 15px; padding-bottom: 15px">
+                <div class="middle">
+                    <div class="text" onclick="makefav(this)" data-id="3" <% if(fav.includes(3)){%>style="background-color:tomato"
+                        <%}%>>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <% if(!fav.includes(3)){%> Add to favourite
+                        <%}else{%> Remove favourite
+                        <%}%>
+                    </div>
+                </div>
+                <a href="#" title="click to download game" class="image"><img src="" width="100%"></a>
+            </div>
+            <div class="col-sm-4 gamecard" style="padding-top: 15px; padding-bottom: 15px">
+                <div class="middle">
+                    <div class="text" onclick="makefav(this)" data-id="2" <% if(fav.includes(2)){%>style="background-color:tomato"
+                        <%}%>>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <% if(!fav.includes(2)){%> Add to favourite
+                        <%}else{%> Remove favourite
+                        <%}%>
+                    </div>
+                </div>
+                <a href="#" title="click to download game" class="image"><img src="" width="100%"></a>
+            </div>
+            <div class="col-sm-4 gamecard" style="padding-top: 15px; padding-bottom: 15px">
+                <div class="middle">
+                    <div class="text" onclick="makefav(this)" data-id="5" <% if(fav.includes(5)){%>style="background-color:tomato"
+                        <%}%>>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <% if(!fav.includes(5)){%> Add to favourite
+                        <%}else{%> Remove favourite
+                        <%}%>
+                    </div>
+                </div>
+                <a href="#" title="click to download game" class="image"><img src="" width="100%"></a>
+            </div>
+            <div class="col-sm-4 gamecard" style="padding-top: 15px; padding-bottom: 15px">
+                <div class="middle">
+                    <div class="text" onclick="makefav(this)" data-id="6" <% if(fav.includes(6)){%>style="background-color:tomato"
+                        <%}%>>
+                        <i class="fa fa-star-o" aria-hidden="true"></i>
+                        <% if(!fav.includes(6)){%> Add to favourite
+                        <%}else{%> Remove favourite
+                        <%}%>
+                    </div>
+                </div>
+                <a href="#" title="click to download game" class="image"><img src="" width="100%"></a>
+            </div>
+        </section>
+        <!-- /Features -->
+        <%- include ../partials/footer %>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var IS_IPAD = navigator.userAgent.match(/iPad/i) != null,
+                    IS_IPHONE = !IS_IPAD && ((navigator.userAgent.match(/iPhone/i) != null) || (navigator.userAgent.match(/iPod/i) != null)),
+                    IS_IOS = IS_IPAD || IS_IPHONE,
+                    IS_ANDROID = !IS_IOS && navigator.userAgent.match(/android/i) != null,
+                    IS_MOBILE = IS_IOS || IS_ANDROID;
+
+                if (IS_IPAD || IS_IPHONE) {
+                    $('.game').html(`
+                        <div class="col-md-12 text-center">
+                            <p>
+                                For better mobile experience of 6 games download the app from the store
+                            </p>
+                            <h3><strong>Link coming soon</strong></h3>
+                        </div>
+                        `);
+                }
+            })
+        </script>

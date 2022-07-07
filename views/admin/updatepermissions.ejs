@@ -1,0 +1,160 @@
+<% layout('layouts/base') -%>
+<style type="text/css">
+    .rm-border {
+        border-left-color: #fff !important;
+        border-right-color: #fff !important;
+    }
+
+    td {
+        cursor: pointer;
+
+    }
+
+    .dt-buttons,
+    .sorting {
+        display: none
+    }
+
+    .tabs {
+        margin-right: 5px;
+    }
+</style>
+<section class="content-header">
+    <h1>
+        Manage Permissions</small></h1>
+
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+        </div>
+        <div class="box-body">
+            <form action="/controlpanel/createtournament" onsubmit="validate(this)" method="post" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <label>
+                            <h3>Permission : #
+                                <%= user%>
+                            </h3>
+                        </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <select name="tabs" id="tabs" class="form-control">
+                            <option value="">Select a tab to permit</option>
+                            <% if(!permissions.includes('users')){%>
+                            <option value="users">Users</option>
+                            <%}%>
+                            <% if(!permissions.includes('uploaded_documents')){%>
+                            <option value="uploaded_documents">Uploaded Documents</option>
+                            <%}%>
+                            <% if(!permissions.includes('uploaded_documents')){%>
+                            <option value="manage_permissions">Manage Permission</option>
+                            <%}%>
+                            <% if(!permissions.includes('banned_users')){%>
+                            <option value="banned_users">Banned Users</option>
+                            <%}%>
+                            <% if(!permissions.includes('suspended_users')){%>
+                            <option value="suspended_users">Suspended Users</option>
+                            <%}%>
+                            <% if(!permissions.includes('static_pages')){%>
+                            <option value="static_pages">Static pages</option>
+                            <%}%>
+                            <% if(!permissions.includes('notifications')){%>
+                            <option value="notifications">Notifications</option>
+                            <%}%>
+                            <% if(!permissions.includes('create_tournaments')){%>
+                            <option value="create_tournaments">Create Tournaments</option>
+                            <%}%>
+                            <% if(!permissions.includes('view_tournaments')){%>
+                            <option value="view_tournaments">View Tournaments</option>
+                            <%}%>
+                            <% if(!permissions.includes('inbox')){%>
+                            <option value="inbox">Inbox</option>
+                            <%}%>
+                            <% if(!permissions.includes('outbox')){%>
+                            <option value="outbox">Outbox</option>
+                            <%}%>
+                            <% if(!permissions.includes('compose')){%>
+                            <option value="compose">Compose</option>
+                            <%}%>
+                            <% if(!permissions.includes('all_user_messages')){%>
+                            <option value="all_user_messages">All user messages</option>
+                            <%}%>
+                            <% if(!permissions.includes('payment_history')){%>
+                            <option value="payment_history">Payment History</option>
+                            <%}%>
+                            <% if(!permissions.includes('redeem_request')){%>
+                            <option value="redeem_request">Redeem Request</option>
+                            <%}%>
+                            <% if(!permissions.includes('game_statistics')){%>
+                            <option value="game_statistics">Game Statistics</option>
+                            <%}%>
+                        </select>
+                    </div>
+                    <div class="col-md-12">
+                        <h4>Selected permissions</h4>
+                        <input type="hidden" id="permitted" name="permitted">
+                    </div>
+                    <div class="col-md-12 mt-20 tags">
+                    </div>
+                    <div class="col-md-12">
+                        <%if(permissions.length && permissions !=""){%>
+                        <h4>Permitted</h4>
+                        <%}%>
+                    </div>
+                    <div class="col-md-12 mt-20 prevTags">
+                        <input hidden type="text" id="prevPermitted" data-permissions="<%=permissions%>">
+                    </div>
+                    <div class="col-md-12 mt-20">
+                        <input type="button" id="save" data-user="<%=user%>" class="btn btn-md btn-primary hidden"
+                            value="save">
+                    </div>
+
+                </div>
+        </div>
+        </form>
+    </div>
+    </div>
+</section>
+<script>
+    function validate(el) {
+        e.preventDefault()
+        console.log(el)
+    }
+    let perArr = []
+    $("#tabs").change(function () {
+        let selected = $("#tabs :selected").val()
+        if (selected == '') {
+            return
+        }
+        let permitted = $("#permitted").val() || ""
+        if (!perArr.includes(selected)) {
+            perArr.push(selected)
+            $('.tags').prepend(`<span style="display: inline-block" class="tabs btn-sm btn-success mt-10">${selected}\t<i class="fa fa-close deletePermission"  data-user=<%= user%> data-permission='${selected}' style="cursor : pointer"></i></span>`)
+            permitted += " " + selected
+            if (permitted != '') {
+                $("#save").removeClass('hidden')
+            } else {
+                $("#save").addClass('hidden')
+            }
+            $("#permitted").val(permitted)
+        }
+    })
+    $(document).ready(function () {
+        let permissions = $("#prevPermitted").attr('data-permissions')
+        permissions = permissions.trim().split(",")
+        let permitted = $("#permitted").val() || ""
+        permissions.forEach(element => {
+            if (element != '') {
+                $(".prevTags").append(`<span style="display: inline-block" class="tabs btn-sm btn-warning  mt-10">${element}\t<i class="fa fa-close deletePermission"  data-user=<%= user%> data-permission='${element}' style="cursor : pointer"></i></span>`)
+                perArr.push(element)
+                permitted += ` ${element}`
+            }
+        });
+        $("#permitted").val(permitted)
+    })
+
+
+</script>

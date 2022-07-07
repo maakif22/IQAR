@@ -1,0 +1,78 @@
+<html>
+
+<head>
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> -->
+	<style>
+		* {
+			font-family: Helvetica, Arial, sans-serif;
+		}
+
+		.header {
+			background: #160962;
+			padding: 10px;
+			text-align: center
+		}
+
+		.content {
+			padding: 5px 20px
+		}
+
+		.content h3 {
+			text-align: center
+		}
+
+		.content p {
+			line-height: 20px
+		}
+	</style>
+</head>
+
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="header text-center">
+				<img src=" " width="155" alt='Logo' data-default="placeholder" />
+			</div>
+		</div>
+		<div class="row">
+			<div>
+				<div class="content">
+					<br>
+					<p>Dear {{username}},
+					</p>
+					<p>
+						Sequel to your account being flagged, we have unfortunately had to delete same to
+						prevent a reoccurrence of the issues that led to this situation.
+					</p>
+					<p>
+						As a result, you may no longer access your OneUp account to play games or communicate with
+						other
+						users. Your personal information has also been removed from the service.
+					</p>
+					<p>
+						The tokens in your account will be transferred to the bank account provided in your profile. If
+						you
+						wish to change this, please email users@oneup.ng within 24 hours of receiving this email.
+
+					</p>
+					<p>
+						<strong>
+							Regards,<br>
+							Customer Experience Team.
+						</strong>
+					</p>
+				</div>
+			</div>
+			<div>
+				<a target='_blank' href='http://{{host}}/reset/{{token}}' class=' btn btn-primary'>
+					<font color="#fff">Reset</font>
+				</a>
+			</div>
+			<div>
+
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>

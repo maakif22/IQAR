@@ -1,0 +1,136 @@
+<% layout('layouts/base-front') -%>
+<div class="row">
+    <div class="col-md-3">
+
+        <!-- Profile Image -->
+        <div class="box box-primary mt-50">
+            <div class="box-body box-profile" title="Click to change profile picture">
+                <img id="change-profile-pic" class="profile_picture profile-user-img img-responsive img-circle" <%
+                    if(profile.profile_pic) { %> src=
+                <%= `/users/${session.id}/${profile.profile_pic}` %>
+                <% }else{%> src =
+                <%= `/images/${profile.gender}.jpg` %>
+                <% }%> alt="User profile picture">
+                <h3 class="profile-username text-center">
+                    <span>
+                        <%=  profile.firstname.toUpperCase() %></span>
+                </h3>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+
+    </div>
+    <!-- /.col -->
+    <div class="col-md-9">
+        <h3 class="mt-0 mb-20 pull-right"><a href="/editmyprofile">Edit</a></h3>
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <td style="width: 200px;">
+                        <p>Email</p>
+                    </td>
+                    <td>
+                        <p>
+                            <%= profile.email %>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 200px;">
+                        <p>Gender</p>
+                    </td>
+                    <td>
+                        <p>
+                            <%= profile.gender %>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Address</p>
+                    </td>
+                    <td>
+                        <p>
+                            <% if(profile.res_address){%>
+                            <%=  profile.res_address %>
+                            <% }else{%>--
+                            <%}%>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>State</p>
+                    </td>
+                    <td>
+                        <p>
+                            <% if(profile.state && profile.state!="Select State"){%>
+                            <%=  profile.state %>
+                            <% }else{%>--
+                            <%}%>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Country</p>
+                    </td>
+                    <td>
+                        <p>
+                            <% if(profile.country && profile.country!="Select Country"){%>
+                            <%=profile.country %>
+                            <% }else{%>--
+                            <%}%>
+                        </p>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p>Age</p>
+                    </td>
+                    <td>
+                        <p>
+                            <%=profile.user_age %>
+                        </p>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- /.col -->
+</div>
+<!-- /.row -->
+
+<div id="profile_pic_modal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h3>Change Profile Picture</h3>
+            </div>
+            <div class="modal-body">
+                <form id="cropimage" method="post" enctype="multipart/form-data" action="/api/change_avatar">
+                    <strong>Upload Image:</strong> <br><br>
+                    <input type="file" name="profile-pic" id="profile-pic" />
+                    <input type="hidden" name="hdn-profile-id" id="hdn-profile-id" value="1" />
+                    <input type="hidden" name="hdn-x1-axis" id="hdn-x1-axis" value="" />
+                    <input type="hidden" name="hdn-y1-axis" id="hdn-y1-axis" value="" />
+                    <input type="hidden" name="hdn-x2-axis" value="" id="hdn-x2-axis" />
+                    <input type="hidden" name="hdn-y2-axis" value="" id="hdn-y2-axis" />
+                    <input type="hidden" name="hdn-thumb-width" id="hdn-thumb-width" value="" />
+                    <input type="hidden" name="hdn-thumb-height" id="hdn-thumb-height" value="" />
+                    <input type="hidden" name="action" value="" id="action" />
+                    <input type="hidden" name="image_name" value="" id="image_name" />
+                    <div id='preview-profile-pic'></div>
+                    <div id="thumbs" style="padding:5px; width:600p"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+                <button type="button" id="save_crop" class="btn btn-primary">Crop & Save</button>
+            </div>
+        </div>
+    </div>
+</div>

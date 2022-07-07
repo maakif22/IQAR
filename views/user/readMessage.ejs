@@ -1,0 +1,118 @@
+<% layout('layouts/base-front') -%>
+<style>
+  #flag {
+    height: 20px;
+    width: 20px;
+    border-radius: 50%;
+    font-size: 10px;
+    text-align: center;
+    background: dodgerblue;
+    padding: 3px;
+    margin-left: 10px;
+    cursor:  pointer;
+    color : tomato
+}
+
+</style>
+<div class="col-md-9">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <!-- <h3 class="box-title">Read Message</h3> -->
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body no-padding" id="chatbox">
+      <div class="mailbox-read-info">
+        <h3>
+          <%= message[0].subject %>
+        </h3>
+        <h5>
+          <% if(message[message.length-1].to_id!=session.id){ %>
+          To :
+          <%= message[0].to_mail%>
+          <% }else{ %>
+          From :
+          <%= message[0].email %>
+          <% } %>
+          <span class="mailbox-read-time pull-right">
+            <%= (message[0].created_on).toDateString()%></span></h5>
+      </div>
+      <div class="mt-20">
+        <% if(message[0].from_id == session.id){ %>
+        <div class="mailbox-read-message text-left mailbox-read-message-left">
+          <span class="">
+            <%= message[0].message %></span>
+        </div>
+        <% }else{%>
+        <div class="first-message mailbox-read-message text-right mailbox-read-message-right <%if(message[0].flagged){%>flagged<%}%>">
+          <span class="">
+            <%= message[0].message %></span>
+          <a class="pull-right" id="flag" title="Report message" data-panel="first-message" data-message="<%= message[0].id%>"
+            style="text-decoration : none"><i class="fa fa-flag"></i></a>
+          </a>
+        </div>
+        <% } %>
+      </div>
+
+      <% for(var i=1; i < message.length; i++) {%>
+      <div class="panel panel-<%=i%> mt-10" data-length="<%= message.length %>" id="panel">
+        <% if(message[i].from_id == session.id){ %>
+        <div class="mailbox-read-message text-left mailbox-read-message-left">
+          <span class="text-card">
+            <%= message[i].message %></span>
+        </div>
+        <% }else{%>
+        <div class="mailbox-read-message text-right mailbox-read-message-right <%if(message[i].flagged){%>flagged<%}%>">
+          <span class="">
+            <%= message[i].message %></span>
+          <a class="pull-right" title="Report message" id="flag" data-panel="panel-<%=i%>" data-message="<%= message[i].id%>"
+            style="text-decoration : none"><i class="fa fa-flag"></i></a>
+        </div>
+        <% } %>
+      </div>
+      <% } %>
+
+      <!-- /.mailbox-controls -->
+
+      <!-- /.mailbox-read-message -->
+    </div>
+    <!-- /.box-body -->
+    <!-- /.box-footer -->
+
+    <div class="row mt-10">
+      <div class="col-md-4 col-xs-3 text-left">
+        <button type="button" class="btn btn-default" onclick="deletemessage(this)" data-mId="<%= message[0].thread_id %>"><i
+            class="fa fa-trash-o"></i></button>
+      </div>
+      <div class="col-md-4 col-xs-5">
+        <% if(message.length > 1 && message[0].to_id!=0){%>
+        <div class="text-center accordion"><a class="btn btn-success">view next</a></div>
+        <div class="text-center close"><a class="btn btn-success">collapse</a></div>
+        <%}%>
+      </div>
+      <% if(message[0].to_id!=0){%>
+      <div class="col-md-4 col-xs-4 pull-right">
+        <button type="button" id="revealreply" class="btn btn-default pull-right"><i class="fa fa-reply"></i></button>
+      </div>
+      <% } %>
+    </div>
+  </div>
+  <div class="box box-primary">
+    <div class="row mt-20">
+      <!-- <form onsubmit="replyMessage()"> -->
+      <input type="hidden" name="subject" value="<%=message[0].subject%>">
+      <input type="hidden" name="email" value="<%=message[0].email%>">
+      <input type="hidden" name="thread" value="<%=message[0].thread_id%>">
+      <input type="hidden" name="to" value="<% if(session.id==message[0].to_id){%><%=message[0].from_id%><%}else{%><%=message[0].to_id%><%}%>">
+      <input type="hidden" name="from" value="<%=session.id%>">
+      <div class="col-md-10 col-xs-9">
+        <input type="text" name="reply" id="replybtn" class="form-control" placeholder="type your message...">
+      </div>
+      <div class="col-md-2 col-xs-3 text-right">
+        <button type="button" id="send" disabled class="btn btn-default pull-right"><i class="fa fa-send-o"></i></button>
+      </div>
+      <!-- </form> -->
+    </div>
+  </div>
+  <!-- /. box -->
+</div>
+<!-- /.col -->

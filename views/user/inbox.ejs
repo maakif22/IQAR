@@ -1,0 +1,83 @@
+<% layout('layouts/base-front') -%>
+<style>
+    .pagination>li:first-child>a,
+    .pagination>li>a,
+    .pagination>li>a:hover,
+    .pagination>li>a:focus,
+    .pagination>li:first-child>span,
+    .pagination>li>span,
+    .pagination>li>span:hover,
+    .pagination>li>span:focus {
+        padding: 5px 10px
+    }
+
+    .message-unread {
+        padding: 10px;
+    }
+</style>
+<div class="row">
+    <div class="col-md-9">
+        <ul class="pagination pagination-sm mt-0">
+            <li>
+                <a href="/message/inbox">INBOX</a>
+            </li>
+            <li>
+                <a href="/message/sent">SENT</a>
+            </li>
+            <li>
+                <a href="/message/compose">COMPOSE</a>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-3">
+    </div>
+</div>
+
+<!-- <tbody> -->
+<% if(inbox.length >0){ %>
+<% for(var i=0; i<inbox.length; i++){ %>
+<div class="row youplay-messages mt-20">
+    <div class="message-unread">
+        <div class=" col-md-4 col-sm-4 message-from" onclick="window.location='/message/readmessage/<%=inbox[i].thread_id%>';">
+            <div class="angled-img">
+                <img width="50" height="50" <% if(inbox[i].profile_pic) { %> src="
+                <%= `/users/${inbox[i].from_id}/${inbox[i].profile_pic}` %>"
+                <% }else{%> src = "
+                <%= `/images/${inbox[i].gender}.jpg` %>"
+                <% }%> alt="">
+            </div>
+            <div class="namedate">
+                <p>
+                    <%=inbox[i].firstname %>
+                    <br>
+                    <span class="date">
+                        <%= inbox[i].created_on.toDateString() %></span>
+                </p>
+            </div>
+        </div>
+        <div class="col-md-4 col-sm-4 col-xs-10 message-description text-left mt-10" onclick="window.location='/message/readmessage/<%=inbox[i].thread_id%>';">
+            <strong>
+                <%= inbox[i].subject %></strong>
+            -
+            <div class="message-excerpt" style="color : #ddd">
+                <%= inbox[i].message.substr(0,40)+"..." %>
+            </div>
+        </div>
+        <div class=" col-md-4 col-sm-3 text-right" style="padding : 10px">
+            <span class="messages-count"></span>
+            <a class="message-delete" onclick="deletemessage(this)" data-mId="<%= inbox[i].thread_id %>" data-area="inbox"><i
+                    class="fa fa-times"></i></a>
+        </div>
+        <div class="clearfix">
+        </div>
+    </div>
+
+</div>
+<% } %>
+<% } else { %>
+<div class=" col-md-12 message-unread">
+    <div class="message-description">There are no messages in your inbox</div>
+</div>
+<% } %>
+<!-- </tbody> -->
+</form>

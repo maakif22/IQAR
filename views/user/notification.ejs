@@ -1,0 +1,61 @@
+<% layout('layouts/base-front') -%>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+
+        <div role="tabpanel">
+
+            <!-- Nav tabs -->
+            <!-- <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#frnds" aria-controls="home" role="tab" data-toggle="tab">all</a></li>
+            </ul> -->
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="frnds">
+                    <!-- /.row -->
+                    <h2 class="page-header">NOTIFICATIONS</h2>
+                    <!-- /.col -->
+                    <%
+                        if(notifications && notifications.length) {
+                        for(var i=0; i< notifications.length; i++) { %>
+                    <div class="row" style="cursor : pointer">
+                        <div data-ref="<%=notifications[i].ref_link%>" data-status='<%=notifications[i].status%>'
+                            data-notid='<%=notifications[i].id%>' onclick="followLink(this)" class="mt-20 <% if(notifications[i].status==null || notifications[i].status!='read'){%><%= 'unread'%><% }%> ">
+                            <!-- Add the bg color to the header using any of the bg-* classes -->
+                            <% if(notifications[i].ref_link){%>
+                            <a title="<%=notifications[i].ref_link%>">
+                                <% } %>
+                                <!-- <span class="notificstatus">
+                                    <%=notifications[i].status ?notifications[i].status : 'unread' %>
+                                </span> -->
+                                <div class="col-md-6 col-xs-12">
+                                    <h4 style="color: dodgerblue;">
+                                        <%= JSON.parse(notifications[i].text).subject %>
+                                    </h4>
+                                </div>
+                                <div class="col-md-6  col-xs-12 notif  <% if(notifications[i].ref_link){%>ud<%}%>">
+                                    <p>
+                                        <%= JSON.parse(notifications[i].text).message %>
+                                    </p>
+                                </div>
+                                <% if(notifications[i].ref_link){%>
+                            </a>
+                            <% } %>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                    <% } }
+                            else {  %>
+                    <p>No notifications to display</p>
+                    <% }  %>
+                    <!-- /.col -->
+                    <!-- /.row -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+
+</section>
+<!-- /.content -->

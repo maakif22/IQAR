@@ -1,0 +1,102 @@
+<% layout('layouts/base') -%>
+<section class="content-header">
+    <h1>
+        <small>All Reports</small></h1>
+</section>
+<section class="content">
+    <div class="box">
+        <div class="box-header with-border">
+            <h4 class="">Reports
+                <span class="pull-right">
+                    <!-- <button type="button" class="btn btn-default" data-toggle="modal" data-target="#myModal"><i class="fa fa-filter"></i>
+                        Filter Users</button> -->
+                </span>
+            </h4>
+        </div>
+        <div class="box-body">
+            <div style="clear: both;"></div>
+            <div class="mt-10"></div>
+            <div class="data-table mt-20">
+                <table class="table table-bordered" id="example">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Reported By</th>
+                            <th>Abusive User</th>
+                            <th>Message</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% i=1; users.forEach(function(user) { %>
+                        <tr>
+                            <td><input data-status="<%= user.status %>" type="checkbox" class="cb-element" name="msgdel[]"
+                                    value="<%=user.id%>"></td>
+                            <td>
+                                <%= user.reporter %>
+                            </td>
+                            <td>
+                                <%= user.firstname %> (<a href='mailto:<%=user.email%>'>
+                                    <%=user.email%></a>)
+                            </td>
+                            <td>
+                                <%= user.message %>
+                            </td>
+                        </tr>
+                        <% i++;}); %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Filter Users</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/controlpanel/users" method="get">
+                        <div class="col-md-6">
+                            <label>From : </label>
+                            <input type="date" name="from" id="from" class="form-control">
+                        </div>
+                        <div class="col-md-6">
+                            <label>To :</label>
+                            <input type="date" name="to" id="to" class="form-control">
+                        </div>
+                        <div class="col-md-12 mt-10">
+                            <label>User Status :</label>
+                            <select name="status" class="form-control">
+                                <option value="">All</option>
+                                <option value="banned">Banned</option>
+                                <option value="suspended">Suspended</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 mt-10">
+                            <label>Country :</label>
+                            <select class="form-control" id="country" name="country"></select>
+                        </div>
+                        <div class="col-md-12">
+                            <input type="submit" id="submit" class="btn btn-primary" style="margin-top:25px" value="Go">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="/dist/js/countries.js"></script>
+<script language="javascript">
+    $(document).ready(function () {
+        populateCountries("country", "state"); // first parameter is id of country drop-down and second 
+    })
+</script>

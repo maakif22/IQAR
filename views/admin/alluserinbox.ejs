@@ -1,0 +1,82 @@
+<% layout('layouts/base') -%>
+<style type="text/css">
+    .rm-border {
+        border-left-color: #fff !important;
+        border-right-color: #fff !important;
+    }
+
+    td {
+        cursor: pointer;
+
+    }
+</style>
+<section class="content-header">
+    <h1>
+        <small>All Users</small></h1>
+    <ol class="breadcrumb">
+        <li>
+            <a href="#"> <i class="fa fa-dashboard"></i>Level </a>
+        </li>
+        <li class="active">Here </li>
+    </ol>
+</section>
+<section class="content">
+    <form method="post">
+        <input type="hidden" name="area" value="inbox">
+        <div class="box">
+            <div class="box-header with-border">
+                <h3 class="box-title">Inbox</h3>
+            </div>
+            <div class="box-body">
+                <div style="clear: both;"></div>
+                <div class="mailbox-controls">
+                    <!-- Check all button -->
+
+                    <!-- <button type="button" class="checkbox-toggle myCheckBox btn btn-sm btn-default"><i class="fa fa-square-o"></i>
+                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger btn-sm" id="delinboxmsg"><i class="fa fa-trash-o"></i></button>
+                    </div> -->
+                </div>
+
+
+                <table class="table table-hover table-striped" id="example">
+                    <thead>
+                        <tr style="border:none;">
+                            <!-- <th>&nbsp;</th> -->
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Message</th>
+                            <th>Date</th>
+                            <!-- <th></th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if(inbox.length >0){  %>
+                        <% inbox.forEach(function(el , i) {%>
+                        <tr data-toggle="tooltip" title="Click to read">
+                            <!-- <td><input type="checkbox" class="myCheckBox" name="msgdel[]" value="<%= el.id %>"></td> -->
+                            <td class="rm-border" onclick="window.location='/controlpanel/readUserMessage/<%=inbox[i].id%>';">
+                                <%= el.from_name %>
+                            </td>
+                            <td class="rm-border" onclick="window.location='/controlpanel/readUserMessage/<%=inbox[i].id%>';">
+                                <%= el.to_name %>
+                            </td>
+                            <td class="rm-border" onclick="window.location='/controlpanel/readUserMessage/<%=inbox[i].id%>';">
+                                <%= el.message.substr(0,50)+"......" %>
+                            </td>
+                            <td class="rm-border" onclick="window.location='/controlpanel/readUserMessage/<%=inbox[i].id%>';">
+                                <%= new Date(el.created_on).toDateString()%>
+                            </td>
+                            <!-- <td>
+                                <i data-ids="<%= el.id %>" class="fa fa-trash-o delSingle"> </i>
+                            </td> -->
+                        </tr>
+                        <% })
+                    }; %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </form>
+</section>

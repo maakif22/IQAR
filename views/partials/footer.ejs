@@ -1,0 +1,173 @@
+<style>
+    .footer-navbar {
+        display: inline-block
+    }
+
+    .inline-block {
+        padding: 5px 0px
+    }
+</style>
+<footer class="youplay-footer youplay-footer-parallax">
+    <div class="wrapper">
+        <!-- Social Buttons -->
+        <!--
+        <div class="social">
+            <div class="container">
+                <div class="social-icons">
+                    <div class="social-icon">
+                        <a href="#">
+                            <img src="/images/ios.png" alt="ios">
+                        </a>
+                    </div>
+                    <div class="social-icon">
+                        <a href="/dist/OneupGames.apk" id="androiddownload" download>
+                            <img src="" alt="android">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    -->
+        <!-- /Social Buttons -->
+
+        <!-- Copyright -->
+        <div class="copyright">
+            <div class="container hidden-xs hidden-sm">
+                <ul class="nav navbar-nav footer-navbar">
+
+                    <!--
+                    <li class=" dropdown dropdown-hover">
+                        <a href="/terms">
+                            Terms & Conditions
+                        </a>
+
+                    </li>
+                    <li class=" dropdown dropdown-hover">
+                        <a href="/privacy-policy">
+                            Privacy Policy
+                        </a>
+                    -->
+
+                    </li>
+                    <li class=" dropdown dropdown-hover">
+                        <a href="/faq">
+                            FAQ
+                        </a>
+
+                    </li>
+                    <li class=" dropdown dropdown-hover">
+                        <a href="/about-oneup">
+                            About IQAR
+                        </a>
+
+                    </li>
+
+                </ul>
+
+                <p style="font-size: 10px;">2022 &copy; <strong>IQAR</strong>. All rights reserved</p>
+            </div>
+            <div class="container hidden-lg hidden-md">
+                <div class="">
+                    <div class="col-xs-6 col-sm-6 text-left inline-block">
+                        <a href="/terms">
+                            Terms & Conditions
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6  text-right inline-block">
+                        <a href="/privacy-policy">
+                            Privacy Policy
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6  text-left inline-block">
+                        <a href="/faq">
+                            FAQ
+                        </a>
+                    </div>
+                    <div class="col-xs-6 col-sm-6  text-right inline-block">
+                        <a href="/about-oneup">
+                            About IQAR
+                        </a>
+                    </div>
+                </div>
+                <p style="font-size: 10px;" class="inline-block">2022 &copy; <strong>IQAR</strong>. All rights
+                    reserved</p>
+            </div>
+        </div>
+        <!-- /Copyright -->
+    </div>
+</footer>
+<!-- /Footer -->
+</div>
+<div class="row">
+    <div id="messages" class=" col-md-4 col-sm-12 col-xs-12 pull-right hidden"
+        style="box-shadow: 1px 2px 10px rgba(0,0,0,0.5);position : fixed;z-index: 100; bottom : 0vh; right : 0px;background: #fff;color: black;">
+        <div class="row">
+            <div class="col-md-3  col-sm-3 col-xs-3 push-redirect">
+            </div>
+            <div class="col-md-8  col-sm-8 col-xs-8 push-redirect">
+                <h5 style="color: black;" id="title">
+                    <strong></strong>
+                </h5>
+                <p style="overflow-x: hidden;" id="msg_body">
+                </p>
+                <p style="color: dimgray">
+                    www.IQAR.ng
+                </p>
+            </div>
+            <div class="col-md-1  col-sm-1 col-xs-1 ">
+                <span class="pull-right" id="push-close"
+                    style="cursor : pointer;color: #ddd; font-weight: lighter !important"><i
+                        class="fa fa-close"></i></span>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Search Block -->
+<div class="search-block">
+    <a href="#" class="search-toggle">
+        <i class="fa fa-times"></i>
+    </a>
+    <form action="search.html">
+        <div class="youplay-input">
+            <input type="text" name="search" placeholder="Search...">
+        </div>
+    </form>
+</div>
+<!-- /Search Block -->
+<script src="../../dist/assets/js/youplay.js"></script>
+<script src="../../dist/assets/js/youplay-init.js"></script>
+<!-- START: Scripts -->
+
+<!-- Bootstrap -->
+<script src="../../dist/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+
+<!-- Jarallax -->
+<script src="../../dist/assets/vendor/jarallax/dist/jarallax.min.js"></script>
+<!-- Revolution Slider -->
+<script src="../../dist/assets/vendor/slider-revolution/js/jquery.themepunch.tools.min.js"></script>
+<script src="../../dist/assets/vendor/slider-revolution/js/jquery.themepunch.revolution.min.js"></script>
+
+<!-- ImagesLoaded -->
+<script src="../../dist/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js" async></script>
+
+<!-- Bootstrap Validator -->
+<script src="../../dist/assets/vendor/bootstrap-validator/dist/validator.min.js" async></script>
+
+<script src="../../dist/assets/js/classie.js"></script>
+<script src="../../dist/assets/js/gnmenu.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700" media="none"
+    onload="if(media!='all')media='all'">
+<script>
+    new gnMenu(document.getElementById('gn-menu'));
+</script>
+
+<!-- END: Scripts -->
+
+<%- include ../partials/scripts.ejs %>
+
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.5.6/firebase-messaging.js"></script>
+</body>
+
+</html>

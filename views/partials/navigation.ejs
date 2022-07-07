@@ -1,0 +1,118 @@
+<!-- <script>
+  socket.emit("user", { id: <%= session.id %> })
+
+  $(document).ready(function () {
+    let count = Number(localStorage.getItem('notification-count'))
+    if (count == 0) {
+      $("#notification-count").hide()
+    } else {
+      $("#notification-count").show()
+      $("#notification-count").html(count)
+    }
+
+    $("#notification").click(function () {
+      localStorage.removeItem('notification-count')
+      window.location = "/notification"
+    })
+  })
+
+  var notificationcount
+
+  function getNotifCount() {
+    let count = Number(localStorage.getItem('notification-count'))
+    if (count == undefined) {
+      setNotifCount()
+      notificationcount = 0
+      return notificationcount
+    } else {
+      notificationcount = Number(count)
+    }
+    setNotifCount()
+    return notificationcount
+  }
+
+  function setNotifCount() {
+    if (notificationcount >= 0) {
+      notificationcount = notificationcount + 1
+      localStorage.setItem('notification-count', notificationcount)
+
+    } else {
+      localStorage.setItem('notification-count', 0)
+      notificationcount = 0
+    }
+  }
+  socket.on('broadcast', function () {
+    $("#notification-count").show()
+    $("#notification-count").html(getNotifCount())
+  })
+</script> -->
+<nav class="navbar-youplay navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid" style="background: rgba(8, 3, 37, 0.4)">
+    <div class="navbar-header">
+
+      <ul id="gn-menu" class="gn-menu-main">
+        <li class="gn-trigger">
+          <a class="gn-icon gn-icon-menu"><span>Menu</span></a>
+          <nav class="gn-menu-wrapper">
+            <div class="gn-scroller">
+              <ul class="gn-menu">
+                <% if(session.id){ %>
+                  <!--
+                <li><a class="msg-icon">Messages</a>
+                  <ul class="gn-submenu">
+                    <li><a class="" href="/message/compose">Compose</a></li>
+                    <li><a class="" href="/message/inbox">Inbox</a></li>
+                    <li><a class="" href="/message/sent">Outbox</a></li>
+                  </ul>
+                </li>
+              -->
+                <li class="hidden"><a class="prfl-icon" id="notification">Notification<span class="text-right" id="notification-count"></span></a></li>
+                <li><a class="prfl-icon" href="/myprofile/<%=session.id%>">My Profile</a></li>
+                <li>
+                  <a class="frnds-icon">Settings</a>
+                  <ul class="gn-submenu">
+                    <li><a class="stngs-icon" href="/changepassword">Change Password</a></li>
+                    <!-- <li><a class="" href="/settings/id-verification">ID Verification</a></li> -->
+                  </ul>
+                </li>
+                <li><a id="invalidateOnline" data-session="<%= session.id%>" class="logout-icon">Logout</a></li>
+                <% } else { %>
+                <li><a class="logout-icon" href="/login">Login</a></li>
+                <% } %>
+              </ul>
+            </div><!-- /gn-scroller -->
+          </nav>
+        </li>
+      </ul>
+
+
+      <a class="navbar-brand" href="/" style="margin-left: 60px !important;">
+        <img src="../../dist/assets/images/   " class="img-responsive" alt="logo">
+      </a>
+      <% if(session.id){ %>
+      <div class="welcome-msg col-md-6 hidden-xs hidden-sm text-right" style="padding:20px">
+        <p>Hi, <strong>
+            <%= session.firstname || session.passport.user.first_name%></strong>
+        </p>
+      </div>
+      <div class="form-group1 pull-right" id="search">
+        <input type="text" name="typeahead" class="typeahead tt-query" autocomplete="off" spellcheck="false"
+          placeholder="Search" value="">
+        <span class="search-label" hidden><i class="fa fa-search"></i></span>
+      </div>
+      <% }%>
+    </div>
+  </div>
+</nav>
+<!-- <script src="/socket.io/socket.io.js"></script> -->
+<script>
+  $('#invalidateOnline').click(async function (event) {
+    event.preventDefault();
+    let session = $(this).attr("data-session")
+    var socket = io();
+    socket.on('connect', async function () {
+      socket.emit("logout", session)
+      window.location = "/logout"
+    })
+  });
+</script>

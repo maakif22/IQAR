@@ -1,0 +1,78 @@
+<% layout('layouts/base-front') -%>
+<div class="row">
+  <!-- right column -->
+  <div class="col-md-12">
+    <!-- general form elements disabled -->
+    <div class="box box-warning">
+      <div class="box-header with-border">
+        <h3 class="box-title">Edit Information</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <form>
+          <!-- text input -->
+
+          <input type="hidden" name="" id="userId" value="<%= session.id %>">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" id="firstname" class="form-control" value="<%= profile.firstname %>" required>
+          </div>
+
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" id="lastname" class="form-control" value="<%= profile.lastname %>">
+          </div>
+
+          <div class="form-group">
+            <label>Email</label>
+            <input type="text" id="email" class="form-control" value="<%= profile.email %>" disabled>
+          </div>
+
+          <div class="form-group">
+            <label>Age</label>
+            <input type="number" id="age" class="form-control" value="<%= userinfo.user_age %>">
+          </div>
+
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="number" id="phone" class="form-control" value="<%= userinfo.phone %>">
+          </div>
+          <!-- textarea -->
+          <div class="form-group">
+            <label>Address</label>
+            <textarea class="form-control" id="res_address" rows="3"><%= userinfo.res_address %></textarea>
+          </div>
+          <div class="form-group">
+            <label>Country</label>
+            <select class="form-control" id="country" name="country"></select>
+          </div>
+          <div class="form-group">
+            <label for="state">State</label>
+            <select class="form-control" name="state" id="state"></select>
+          </div>
+      </div>
+
+      <div class="form-group">
+        <button class="btn btn-flat btn-primary" id="edit-profile-btn">Submit</button>
+      </div>
+      </form>
+    </div>
+    <!-- /.box-body -->
+  </div>
+  <!-- /.box -->
+</div>
+<!--/.col (right) -->
+</div>
+<!-- /.row -->
+<script language="javascript">
+  $(document).ready(function () {
+    populateCountries("country", "state"); // first parameter is id of country drop-down and second 
+
+    $('#country option[value=<%=userinfo.country%>').attr("selected", true);
+    if ($('#country option[value=<%=userinfo.country%>').attr('selected')) {
+      populateStates("country", 'state')
+      $('#state option[value=<%=userinfo.state%>').attr("selected", true);
+    }
+  })
+
+</script>

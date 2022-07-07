@@ -1,0 +1,76 @@
+<% layout('layouts/base-front') -%>
+<div class="row">
+  <!-- right column -->
+  <div class="col-md-12">
+    <!-- general form elements disabled -->
+    <div class="box box-warning">
+      <div class="box-header with-border">
+        <h3 class="box-title">BANK INFORMATION</h3>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body">
+        <form method="post" action="/">
+          <!-- text input -->
+
+          <input type="hidden" name="" id="userId" value="<%= session.id %>">
+          <div class="form-group">
+            <label>Bank Name</label>
+            <select id="bank_name" class="form-control" data-selected='<%=userinfo.bank_name %>'>
+              <option value=''>Select a bank</option>
+              <option value="Access Bank Plc">Access Bank Plc</option>
+              <option value="Citi Bank Nigeria Limited">Citi Bank Nigeria Limited</option>
+              <option value="Diamond Bank Plc">Diamond Bank Plc</option>
+              <option value="Ecobank Nigeria Plc">Ecobank Nigeria Plc</option>
+              <option value="Fidelity Bank Plc">Fidelity Bank Plc</option>
+              <option value="First Bank of Nigeria Limited">First Bank of Nigeria Limited</option>
+              <option value="First City Monument Bank Plc">First City Monument Bank Plc</option>
+              <option value="Guaranty Trust Bank Plc">Guaranty Trust Bank Plc</option>
+              <option value="Heritage Banking Company Limited">Heritage Banking Company Limited</option>
+              <option value="Jaiz Bank Plc">Jaiz Bank Plc</option>
+              <option value="Keystone Bank Limited">Keystone Bank Limited</option>
+              <option value="Polaris Bank Limited.">Polaris Bank Limited.</option>
+              <option value="Providus Bank Limited">Providus Bank Limited</option>
+              <option value="Stanbic IBTC Bank Plc">Stanbic IBTC Bank Plc</option>
+              <option value="Standard Chartered">Standard Chartered</option>
+              <option value="Sterling Bank Plc">Sterling Bank Plc</option>
+              <option value="SunTrust Bank Nigeria Limited">SunTrust Bank Nigeria Limited</option>
+              <option value="Union Bank of Nigeria Plc">Union Bank of Nigeria Plc</option>
+              <option value="United Bank for Africa Plc">United Bank for Africa Plc</option>
+              <option value="Unity Bank Plc">Unity Bank Plc</option>
+              <option value="Wema Bank Plc">Wema Bank Plc</option>
+              <option value="Zenith Bank Plc">Zenith Bank Plc</option>
+            </select>
+            <!-- <input type="text" id="bank_name" class="form-control" value="<%= userinfo.bank_name ? userinfo.bank_name : ''  %>"> -->
+          </div>
+          <div class="form-group">
+            <label>Account No.</label>
+            <input type="text" id="bank_acc_no" class="form-control" value="<%= userinfo.bank_acc_no ? userinfo.bank_acc_no : '' %>">
+          </div>
+          <div class="form-group">
+            <label>Account Name.</label>
+            <input type="text" id="bank_acc_name" class="form-control" value="<%= userinfo.bank_acc_name ? userinfo.bank_acc_name :'' %>">
+          </div>
+          <!-- <div class="form-group">
+            <label>Bank Code</label>
+            <input type="text" id="bank_code" class="form-control" value="<%= userinfo.bank_code ? userinfo.bank_code : '' %>">
+          </div> -->
+
+          <div class="form-group">
+            <button class="btn btn-flat btn-primary pull-right" id="accinfo">Submit</button>
+          </div>
+        </form>
+      </div>
+      <!-- /.box-body -->
+    </div>
+    <!-- /.box -->
+  </div>
+  <!--/.col (right) -->
+</div>
+<!-- /.row -->
+<script>
+  $(document).ready(function () {
+    if ('<%= userinfo.bank_name %>') {
+      $("#bank_name").val('<%= userinfo.bank_name %>')
+    }
+  })
+</script>

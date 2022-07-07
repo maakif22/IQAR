@@ -1,0 +1,96 @@
+<aside class="main-sidebar">
+  <section class="sidebar">
+    <div class="user-panel">
+      <img src="../../dist/assets/images/   " alt="logo" />
+    </div>
+    <ul class="sidebar-menu">
+      <li class="header">
+        <h4 style="color : #ddd;font-weight : bold;" class="text-center">Welcome&nbsp;&nbsp;
+          <%= session.firstname%>
+        </h4>
+      </li>
+      <li><a href="/controlpanel/dashboard"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+      </li>
+      <% if(session.isSuperAdmin){%>
+      <li><a href="/controlpanel/managepermissions"><i class="fa fa-edit"></i><span>Manage User Permissions</span></a>
+      </li>
+      <% } %>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-users"></i> <span>Users</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/controlpanel/users"><i class="fa fa-circle-o"></i>Users</a></li>
+          <li><a href="/controlpanel/credits"><i class="fa fa-circle-o"></i> Manage Credits</a></li>
+          <li><a href="/controlpanel/users?status=banned"><i class="fa fa-circle-o"></i> Banned Users</a></li>
+          <li><a href="/controlpanel/suspendedusers?status=suspended"><i class="fa fa-circle-o"></i> Suspended Users</a></li>
+        </ul>
+      </li>
+
+      <li><a href="/controlpanel/pages"><i class="fa fa-edit"></i><span>Static Pages</span></a>
+      </li>
+      <!--
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-users"></i> <span>Notification</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/controlpanel/notification"><i class="fa fa-users"></i><span>Notification</span></a>
+          <li><a href="/controlpanel/notification-app"><i class="fa fa-circle-o"></i>App Notification</a></li>
+        </ul>
+      </li>
+
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-users"></i> <span>Tournaments</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/controlpanel/createtournament"><i class="fa fa-users"></i><span>Create Tournament</span></a>
+          <li><a href="/controlpanel/viewtournament"><i class="fa fa-circle-o"></i> View Tournaments</a></li>
+        </ul>
+      </li>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-envelope"></i> <span>Messages</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/controlpanel/message/inbox"><i class="fa fa-circle-o"></i>Inbox</a></li>
+          <li><a href="/controlpanel/message/outbox"><i class="fa fa-circle-o"></i> OutBox</a></li>
+          <li><a href="/controlpanel/message/compose"><i class="fa fa-circle-o"></i> compose</a></li>
+          <li><a href="/controlpanel/message/allusermessages"><i class="fa fa-circle-o"></i> All user messages</a></li>
+          <li><a href="/controlpanel/reported"><i class="fa fa-circle-o"></i>Reported messages</a></li>
+        </ul>
+      </li>
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-info-circle"></i> <span>Statistics</span>
+          <span class="pull-right-container">
+            <i class="fa fa-angle-left pull-right"></i>
+          </span>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="/controlpanel/report/puchase-history"><i class="fa fa-circle-o"></i>Payment History</a></li>
+          <li><a href="/controlpanel/report/redeem-request"><i class="fa fa-circle-o"></i> Redeem Requests</a></li>
+          <li><a href="/controlpanel/gamestatistic"><i class="fa fa-circle-o"></i> Game Statistcs</a></li>
+        </ul>
+      </li>
+    -->
+      <li><a href="/controlpanel/changepassword"><i class="fa fa-users"></i><span>Change Password</span></a>
+      </li>
+      <li><a href="../logout"><i class="fa fa-sign-out"></i><span>Logout</span></a></li>
+    </ul>
+  </section>
+</aside>
