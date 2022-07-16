@@ -1,0 +1,29 @@
+<% layout('layouts/base-front') -%>
+
+<div style="margin:30px; padding:10px">
+  <label for="year">Choose Academic Year : </label>
+  <select name="year" id="year">
+    <option>(select)</option>
+    <option value="eighteen">2018-2019</option>
+    <option value="nineteen">2019-2020</option>
+    <option value="twenty">2020-2021</option>
+    <option value="twenty-one">2021-2022</option>
+  </select>
+</div>
+
+<div style="margin:30px; padding:10px">
+  <label for="semester">Select semester : </label>
+  <select id="semester" name="semester">
+    <option>(select)</option>
+    <option value="one">1</option>
+    <option value="two">2</option>
+  </select>
+</div>
+
+<div style="margin:30px; padding:10px">
+  <button name="sem-button"><a href="/user/uploadsheet/<%=session.id%>">Confirm</a></button>
+</div>
+
+
+
+

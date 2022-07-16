@@ -1,0 +1,26 @@
+<% layout('layouts/base') -%>
+
+<div class="content-wrap">
+
+  <div style="margin-top: 2%; text-align: center; font-size:25px">
+      <h1><br><br>Department of Computer Engineering</h1>
+      <p style="margin: 5%; font-size: 20px"> <br>A Web application <br>to generate programme and course outcome <br>based on <br>IQAM(Interim Quality Assurance Methodology)</p>
+  </div>
+
+  <div style="margin: 10%"">
+      <form>
+          <label for="department">Select Department: </label>
+          <select name="department" id="department">
+              <option>(select)</option>
+              <option value="AE">Department of Agriculture Enginnering</option>
+              <option value="CE">Department of Civil Engineering</option>
+              <option value="CSE">Department of Computer Engineering</option>
+              <option value="EE">Department of Electrical Engineering</option>
+              <option value="ECE">Department of Electronics and Communication Engineering</option>
+              <option value="IPE">Department of Industrial and Production Engineering</option>
+              <option value="IT">Department of Information Technology</option>
+              <option value="ME">Department of Mechanical Engineering</option>
+          </select>
+          <button><a href="http://127.0.0.1:8000/master" target="_self">Submit</a></button>
+      </form>
+  </div>

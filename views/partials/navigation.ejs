@@ -68,6 +68,8 @@
               -->
                 <li class="hidden"><a class="prfl-icon" id="notification">Notification<span class="text-right" id="notification-count"></span></a></li>
                 <li><a class="prfl-icon" href="/myprofile/<%=session.id%>">My Profile</a></li>
+                <li><a class="prfl-icon" href="http://127.0.0.1:8000" target="_self">CO Attainment</a></li>
+                <!--<li><a class="prfl-icon" href="user/selectsem/<%=session.id%>">Upload</a></li>-->
                 <li>
                   <a class="frnds-icon">Settings</a>
                   <ul class="gn-submenu">
@@ -75,7 +77,7 @@
                     <!-- <li><a class="" href="/settings/id-verification">ID Verification</a></li> -->
                   </ul>
                 </li>
-                <li><a id="invalidateOnline" data-session="<%= session.id%>" class="logout-icon">Logout</a></li>
+                <li><a id="invalidateOnline" data-session="<%= session.id%>" class="logout-icon" href="/login">Logout</a></li>
                 <% } else { %>
                 <li><a class="logout-icon" href="/login">Login</a></li>
                 <% } %>
@@ -87,7 +89,7 @@
 
 
       <a class="navbar-brand" href="/" style="margin-left: 60px !important;">
-        <img src="../../dist/assets/images/   " class="img-responsive" alt="logo">
+        <img src="../../images/iqar.png" class="img-responsive" alt="logo">
       </a>
       <% if(session.id){ %>
       <div class="welcome-msg col-md-6 hidden-xs hidden-sm text-right" style="padding:20px">

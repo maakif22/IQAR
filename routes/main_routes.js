@@ -7,14 +7,7 @@ const
 app.get('/', async (req, res) => {
     let options = { title: "One Up" }
     let farr = []
-    if (req.session.id != undefined || req.session.id != "" || req.session.id != null) {
-        try {
-            let fav = await db.query('SELECT game_id FROM favorite_games where user_id = ?', [req.session.id])
-            fav.forEach(f => {
-                farr.push(f.game_id)
-            });
-        } catch (err) { console.log(err) }
-    }
+    
     res.render('user/home', { options, fav: farr })
 })
 
@@ -67,12 +60,12 @@ app.get('/responsible-gaming', (req, res) => {
     });
 })
 
-app.get('/about-oneup', (req, res) => {
+app.get('/about-iqar', (req, res) => {
 
-    let row = db.page('about-oneup');
+    let row = db.page('about-iqar');
     row.then((data) => {
         let page = JSON.parse(JSON.stringify(data[0]));
-        res.render('pages/about-oneup', { page: page })
+        res.render('pages/about-iqar', { page: page })
     });
 })
 //static pages end

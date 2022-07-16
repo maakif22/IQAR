@@ -1,6 +1,5 @@
 const
     db = require('../db'),
-    mail = require('../mail'),
     hl = require('handy-log'),
     P = require('bluebird'),
     fs = require('fs'),
@@ -32,17 +31,6 @@ const userlist = (req, res) => {
     P.coroutine(function* () {
         let rows = yield db.query(`Select users.*,user_details.phone, user_details.bank_name,user_details.bank_acc_no,user_details.bank_code,user_details.country from users JOIN user_details on users.id = user_details.user_id WHERE users.isadmin !=1 ${flagCondition} ${filter}`);
         res.render("admin/users", { users: rows, query: req.query });
-    })()
-}
-
-const gamelist = (req, res) => {
-    P.coroutine(function* () {
-        let rows = yield db.query('Select CONCAT(u.firstname,u.lastname) as name, u.email,ud.credit_balance,g.game_name,ps.total_battles,ps.battles_won,ps.battles_lost from users u JOIN user_details ud on u.id = ud.user_id INNER JOIN player_statistics ps on ps.user_id=u.id LEFT JOIN games g on ps.game_id= g.id WHERE u.isadmin !=1 AND flag !=1');
-        if (rows.length == 0) {
-            res.json({ mssg: "No User found!" });
-        } else if (rows.length > 0) {
-            res.render("admin/gamestatistics", { games: rows });
-        }
     })()
 }
 const userDoc = (req, res) => {
@@ -77,5 +65,4 @@ const registered = (req, res) => {
 module.exports = {
     userlist,
     userDoc,
-    gamelist
 }

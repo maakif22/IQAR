@@ -1,3 +1,5 @@
+
+
 /**
 * Add friend requet
 * argument anchor as this object 
@@ -18,6 +20,19 @@ function addFriend(argument) {
     }
   })
 }
+
+$('submit-excel').on('click', function(){
+
+  $.ajax({
+    url: "user/uploadsheet",
+    method: 'POST',
+    data: data,
+    success : function(e){
+
+    }
+  })
+
+})
 
 
 /**

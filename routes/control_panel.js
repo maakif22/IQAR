@@ -6,7 +6,6 @@ const
     page = require('../models/admin/page'),
     login = require('../models/_login'),
     P = require('bluebird'),
-    mail = require('../models/mail'),
     path = require("path"),
     root = process.cwd(),
     multer = require('multer'),
@@ -17,6 +16,7 @@ app.get('/login', mw.NotLoggedIn, (req, res) => {
 })
 
 //Report sections
+
 app.get('/dashboard', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
     let totalUsers, purchasehistory
         , redeem, totalToken, total24Token
@@ -27,14 +27,12 @@ app.get('/dashboard', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
     totalUsers = db.query('SELECT COUNT(*) userCount,(select COUNT(*) from users where online="y") as online_users FROM users')
     currentMonthUsers = db.query('SELECT COUNT(*) newUsers FROM users WHERE MONTH(joined)=MONTH(CURRENT_DATE()) AND YEAR(joined)=YEAR(CURRENT_DATE())');
     last24login = db.query("SELECT COUNT(*) as last24login from last_activity WHERE status = '1' AND online_date > (NOW() - INTERVAL 24 HOUR)");
-    totalToken = db.query("SELECT COUNT(*) as totalToken from payment_history")
-    total24Token = db.query("SELECT COUNT(*) as total24Token from payment_history WHERE created_at > (NOW() - INTERVAL 24 HOUR)")
+    
     userByCountry = db.query("SELECT ud.country,COUNT(*) as userCounts from users u inner join user_details ud on u.id = ud.user_id group by ud.country ORDER by userCounts DESC Limit 15")
-    playerByGamescount = db.query("SELECT u.firstname as label ,SUM(ps.total_battles) as y FROM users u inner join player_statistics ps on u.id = ps.user_id group by u.firstname order by y DESC limit 5")
+    
     oldestPlayer = db.query("SELECT firstname as label, joined as y FROM users order by id asc limit 5")
-    playersByWin = db.query("SELECT u.firstname as label,SUM(ps.battles_won) as y FROM users u inner join player_statistics ps ON u.id=ps.user_id GROUP BY firstname ORDER BY y DESC LIMIT 5")
-    byTokenExchanged = db.query("SELECT u.firstname as label,SUM(ph.payment_amount) as y from users u inner join payment_history ph on u.id=ph.user_id  GROUP BY firstname ORDER BY y DESC LIMIT 5")
-    topGames = db.query('SELECT g.game_name as label,SUM(ps.battles_won) as y FROM games g inner join player_statistics ps ON g.id=ps.game_id GROUP BY label ORDER BY y DESC')
+
+    
     byTokenHeld = db.query("SELECT u.firstname as label, u.email as eml, SUM(ud.credit_balance) as y from users u inner join user_details ud on u.id = ud.user_id GROUP BY email, firstname ORDER BY y DESC LIMIT 6")
     try {
         [totalUsers, currentMonthUsers, last24login, purchasehistory, redeem, totalToken, total24Token, userByCountry, playerByGamescount, oldestPlayer, playersByWin, byTokenExchanged, byTokenHeld, topGames] = await Promise
@@ -51,8 +49,6 @@ app.get('/dashboard', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
         totalUsers: totalUsers[0].userCount,
         onlineUsers: totalUsers[0].online_users,
         currentMonthUsers: currentMonthUsers[0].newUsers,
-        totalToken: totalToken[0].totalToken,
-        total24Token: total24Token[0].total24Token,
         userByCountry: userByCountryConstruct,
         playerByGamescount: playerByGamescount,
         oldestPlayer: oldestPlayer,
@@ -63,21 +59,9 @@ app.get('/dashboard', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
     }
     res.render('admin/dashboard', sendable)
 });
-
-app.get('/report/puchase-history', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
-    if (await getPermission('payment_history', req)) {
-        let limit = '';
-        let rows = await db.query(await db.purchaseHistory(limit))
-        let revenue = 0
-        rows.forEach((purch => {
-            revenue += purch.revenue
-        }))
-        var years = await db.query(`select distinct(DATE_FORMAT(created_at,'%Y')) as years from payment_history`)
-        res.render('admin/purchasehistory', { phistory: rows, revenue: revenue, years: years })
-    } else {
-        return unauthorized(res, req)
-    }
-})
+app.get('/home', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
+    res.render('admin/home');
+});
 
 app.get('/report/redeem-request', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
     if (await getPermission('redeem_request', req)) {
@@ -184,6 +168,8 @@ app.get('/', function (req, res, next) {
     });
 });
 
+
+
 app.post('/users/delete', function (req, res, next) {
     let status = 'delete'
     if (req.body.ids) {
@@ -252,8 +238,6 @@ app.post('/users/verification/approve', function (req, res, next) {
                 let renderable = {
                     template: path.join("emails", "users", "verification.html"),
                 }
-                mail(options, renderable)
-                    .then(console.log("Redeem mail sent"))
 
                 req.flash('success', 'Approved Successfully!!');
                 res.redirect('/controlpanel/users/vdoc');
@@ -289,8 +273,7 @@ app.post('/report/redeem/approve', function (req, res, next) {
                         account: mailable[0].bank_acc_name
                     }
                 }
-                mail(options, renderable)
-                    .then(console.log("Redeem mail sent"))
+                
 
                 req.flash('success', 'Approved Successfully!!');
                 res.redirect('/controlpanel/report/redeem-request');
@@ -369,14 +352,6 @@ app.get("/changepassword", function (req, res) {
     res.render('admin/changePassword', { id: req.session.id })
 })
 //admin section end;
-app.get("/gamestatistic", mw.LoggedIn, mw.IsAdmin, async function (req, res) {
-    if (await getPermission('game_statistics', req)) {
-        let sql = await db.query("SELECT u.firstname,g.game_name,ps.total_battles,ps.battles_won,ps.battles_lost,ps.coins_won,ps.coins_lost,ps.updated_at as last_played FROM `player_statistics` ps INNER JOIN users u on ps.user_id=u.id INNER JOIN games g on g.id=ps.game_id ORDER BY last_played DESC limit 10")
-        res.render('admin/gamestatistics', { games: sql })
-    } else {
-        return unauthorized(res, req)
-    }
-})
 
 app.get('/message/allusermessages', mw.LoggedIn, mw.IsAdmin, async (req, res) => {
     if (await getPermission('all_user_messages', req)) {
@@ -502,29 +477,6 @@ app.get("/managepermissions", mw.LoggedIn, mw.IsAdmin, async (req, res) => {
         unauthorized(res, req)
     }
 })
-
-app.post("/getRevenue", async (req, res) => {
-    let { from, to } = req.body
-    let sql
-    let ngn = await new Promise((resolve, reject) => {
-        request.get(`http://apilayer.net/api/live?access_key=${process.env.CONVERT_CURENCY_KEY}&source = GBP&currencies=USD,NGN&format=1`, (error, response, body) => {
-            let ngn = JSON.parse(body).quotes.USDNGN
-            resolve(ngn)
-        })
-    })
-    if (from && to) {
-        sql = `Select SUM(ceil(IF(currency_type="USD",payment_amount*${ngn} - product*100,payment_amount - product*100))) as revenue FROM payment_history where payment_status="completed" and created_at BETWEEN DATE("${from}") and DATE("${to}")`
-    } else if (from || to) {
-        sql = `Select SUM(ceil(IF(currency_type="USD",payment_amount*${ngn} - product*100,payment_amount - product*100))) as revenue FROM payment_history where payment_status="completed" and created_at LIKE "${from || to}%"`
-    } else {
-        sql = `Select SUM(ceil(IF(currency_type="USD",payment_amount*${ngn} - product*100,payment_amount - product*100))) as revenue FROM payment_history  where payment_status="completed"`
-    }
-    try {
-        let revenue = await db.query(sql)
-        res.json({ status: true, revenue: revenue[0].revenue || 0 })
-    } catch (err) { console.log(err) }
-})
-
 async function getPermission(tab, req) {
     let permissions = await db.query(`SELECT permissions,isSuperAdmin FROM permissions p right join users u on u.id= p.user_id WHERE u.id = ?`, [req.session.id])
     if (permissions[0].isSuperAdmin) {

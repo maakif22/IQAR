@@ -1,0 +1,23 @@
+<% layout('layouts/base-front') -%>
+
+<div>
+  <label style="margin:20px; padding:10px" for="course">Select from course available in </label>
+  <select name="course" id="course">
+    <option>(Select)</option>
+    <option>Course 1</option>
+    <option>Course 2</option>
+    <option>Course 3</option>
+    <option>Course 4</option>
+    <option>Course 5</option>
+    <option>Course 6</option>
+  </select>
+</div>
+<div >
+  <h2 style="margin:20px; padding:10px">Upload excel sheet</h2>
+  <div style="margin:20px; padding:10px">
+    <b>Select Excel File</b>
+    <input type="file" id="excel_file" />	
+  </div>
+    <div style="margin:20px; padding:10px" id="excel_data" ></div>
+    <a href="/user/graph/<session.id>"><button style="margin:20px; padding:10px" id = 'submit-excel'>Submit</button></a>
+</div>

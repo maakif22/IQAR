@@ -1,6 +1,5 @@
 const
     db = require('../models/db'),
-    mail = require('../models/mail'),
     hl = require('handy-log'),
     P = require('bluebird'),
     fs = require('fs'),
@@ -77,40 +76,6 @@ const signup = (req, res) => {
 
                 let { affectedRows, insertId } = user
 
-                if (affectedRows == 1) {
-                    let url = `http://localhost:${process.env.PORT}/deep/most/topmost/activate/${insertId}`
-                    let options = {
-                        to: email,
-                        subject: "Welcome to OneUp!",
-                    }
-                    let renderable = {
-                        template: path.join("emails", "users", "welcome.html"),
-                        locals: {
-                            username: firstname
-                        }
-                    }
-                    mail(options, renderable)
-                        .then(m => {
-                            var currentUrl = req.originalUrl;
-                            var admin = currentUrl.indexOf("controlpanel");
-                            if (admin == -1) {
-                                hl.success(m)
-                                session.id = insertId
-                                session.email = email
-                                session.firstname = firstname
-                                session.email_verified = "no"
-                                var _token = jwt.sign({ user: insertId }, process.env.SECRET_KEY);
-                                res.json({ mssg: `Hello, ${session.firstname}!!`, success: true, user_id: insertId, token: _token })
-                            } else {
-
-                                res.redirect('/controlpanel/users');
-                            }
-                        })
-                        .catch(me => {
-                            hl.error(me)
-                            res.json({ mssg: "Error sending email!", error: "Error sending email!" })
-                        })
-                }
             })
             .catch(err => console.log(hl.error(err)))
     }

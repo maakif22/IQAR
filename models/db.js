@@ -1,14 +1,12 @@
 const
     db = require('./mysql'),
-    mail = require('../models/mail'),
     root = process.cwd(),
     bcrypt = require('bcrypt-nodejs'),
     crypto = require('crypto'),
     url = require("url"),
     fs = require('fs'),
     path = require("path"),
-    request = require("request"),
-    spamlist = require("./spamfilterlist.json");
+    request = require("request");
 
 const query = (q, data) => {
     return new Promise((resolve, reject) => {
@@ -283,19 +281,6 @@ const allUserInbox = (req, res, redirectpath) => {
         if (err) throw err;
         res.render(redirectpath, { inbox: rows })
     });
-}
-
-function spamFilter(rows) {
-    rows.map(msg => {
-        let message = msg.message;
-        spamlist.wordlist.forEach(word => {
-            if (message.includes(word) || new RegExp(word, "i").test(message)) {
-                message = message.replace(new RegExp(`\\b${word}\\b`, "gi"), "*****");
-            }
-        });
-        return msg.message = message;
-    });
-    return rows
 }
 
 function transactionLog(req, res, data) {

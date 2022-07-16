@@ -3,17 +3,11 @@ const
     db = require('../models/db'),
     hl = require('handy-log'),
     mw = require('../models/middlewares'),
-    mail = require('../models/mail'),
     login = require('../models/_login'),
-    configAuth = require('../models/auth'),
     P = require('bluebird'),
     passport = require('passport'),
     path = require("path"),
-    FacebookStrategy = require('passport-facebook').Strategy,
-    Window = require('window'),
-    url = require("url")
-    , fs = require("fs")
-    , root = process.cwd();
+    root = process.cwd();
 
 // success page 
 app.get('/success', (req, res) => {
@@ -49,11 +43,6 @@ app.get('/success', (req, res) => {
                                 }
                             }
 
-                            mail(options, renderable).then(_ => {
-                                console.log("Mail sent")
-                            }).catch(err => {
-                                console.log(err)
-                            })
                             let credit_balance = rows[0].credit_balance
                             let new_credit_balance = credit_balance + Number(req.query.product);
                             let user_id = rows[0].user_id;
@@ -321,4 +310,27 @@ app.post("/makefavourite", async (req, res) => {
 app.get("/thankyou", (req, res) => {
     res.render("user/thankyou")
 })
+
+app.get('/user/selectsem/:id', mw.LoggedIn, (req, res)=>{
+    res.render('user/selectsem');
+})
+
+app.get('/user/uploadsheet/:id', mw.LoggedIn, (req, res)=>{
+    res.render('user/uploadsheet');
+})
+
+
+app.get('/controlpanel/uploadsheet', mw.LoggedIn, mw.IsAdmin, (req,res)=>{
+    res.render('admin/uploadsheet');
+})
+
+app.get('/user/graph/:id', mw.LoggedIn, (req, res)=>{
+    res.render('user/graph')
+})
+
+app.get('/controlpanel/checktable', mw.LoggedIn, mw.IsAdmin, (req,res)=>{
+    res.render('admin/checktable');
+})
+
 module.exports = app
+
